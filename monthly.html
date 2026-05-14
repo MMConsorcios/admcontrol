@@ -111,7 +111,7 @@
     <button class="tab active" onclick="showTab('comissoes',this)">Comissões da Equipe</button>
     <button class="tab" onclick="showTab('fechamento',this)">Fechamento</button>
     <button class="tab" onclick="showTab('despesas',this)">Despesas</button>
-    <button class="tab" onclick="showTab('config',this)">Configurações</button>
+    <button class="tab" onclick="showTab('config',this)" style="display:none">Configurações</button>
   </div>
   <div id="tab-comissoes"  class="panel active"></div>
   <div id="tab-fechamento" class="panel"></div>
@@ -125,63 +125,62 @@ const VALOR_NOTA=44327.59;
 const ADM=[
   {p:1,gc:"840-1136",nome:"Matheus Fernando Machado Hinz Lindemann",colab:"R\u00e9gis",vc:52548.05,com:394.11},
   {p:1,gc:"847-627",nome:"Adair Valerio de Souza",colab:"J\u00e9ssica",vc:104142.60,com:781.07},
-  {p:1,gc:"853-27",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:50000.00,com:750.00},
+  {p:1,gc:"853-27",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:50000.00,com:750.00,pct:1.50},
   {p:1,gc:"858-379",nome:"Gilnei Pereira Alchimowich Anton",colab:"Ivana",vc:70000.00,com:525.00},
-  {p:1,gc:"1132-1937",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:67459.17,com:1011.89},
-  {p:1,gc:"1133-284",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:56411.93,com:846.18},
-  {p:1,gc:"1139-1412",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:67777.85,com:1016.67},
-  {p:1,gc:"1141-1204",nome:"Luis Eduardo Cardoso Lucena",colab:"Ivana",vc:56425.01,com:846.38},
-  {p:1,gc:"1141-1873",nome:"Hotel Franke LTDA",colab:"R\u00e9gis",vc:84637.52,com:1269.56},
-  {p:1,gc:"1177-515",nome:"Luana dos Santos Saraiva",colab:"J\u00e9ssica",vc:50000.00,com:750.00},
-  {p:1,gc:"1177-835",nome:"Antonio Carlos Vilela Nunes",colab:"Lisandra",vc:75000.00,com:1125.00},
-  {p:1,gc:"1178-574",nome:"Tatiane Pereira Roliano",colab:"J\u00e9ssica",vc:100000.00,com:1500.00},
-  {p:2,gc:"839-1674",nome:"Dora Regina Ramires Hisse",colab:"J\u00e9ssica",vc:73567.27,com:367.84},
-  {p:2,gc:"839-402",nome:"Vagner Dias da Silva",colab:"Jaguar\u00e3o",vc:63057.66,com:315.29},
-  {p:2,gc:"840-508",nome:"Robison Souza Ortiz",colab:"R\u00e9gis",vc:23646.63,com:118.23},
-  {p:2,gc:"844-2960",nome:"Jean Feij\u00f3 da Cunha",colab:"R\u00e9gis",vc:20835.58,com:104.18},
-  {p:2,gc:"845-1535",nome:"Eric Alexandre Ribeira da Nobrega",colab:"J\u00e9ssica",vc:129196.75,com:645.98},
-  {p:2,gc:"856-2475",nome:"Renan Peters Rivaroli",colab:"M\u00e1rcio",vc:25000.00,com:125.00},
-  {p:2,gc:"1138-852",nome:"Tiele Librelotto Rubert",colab:"J\u00e9ssica",vc:50833.39,com:254.17},
-  {p:2,gc:"1171-1149",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:50000.00,com:250.00},
-  {p:2,gc:"1171-2098",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:50000.00,com:250.00},
-  {p:2,gc:"1171-2571",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:50000.00,com:250.00},
-  {p:2,gc:"1174-1052",nome:"Patr\u00edcia Faria Os\u00f3rio",colab:"M\u00e1rcio",vc:50000.00,com:250.00},
-  {p:2,gc:"1174-1417",nome:"Crislaine de Campos R Proe\u00e7a",colab:"M\u00e1rcio",vc:50000.00,com:250.00},
-  {p:2,gc:"1174-1497",nome:"Pablo Peters Rivaroli",colab:"M\u00e1rcio",vc:50000.00,com:250.00},
-  {p:2,gc:"1174-1831",nome:"Pablo Peters Rivaroli",colab:"M\u00e1rcio",vc:50000.00,com:250.00},
-  {p:3,gc:"846-2125",nome:"Mateus de Souza Valad\u00e3o",colab:"Lisandra",vc:46510.83,com:232.55},
-  {p:3,gc:"855-1218",nome:"Daizi Spiering",colab:"J\u00e9ssica",vc:50000.00,com:250.00},
-  {p:3,gc:"855-2458",nome:"Claudia da Silva Muller",colab:"J\u00e9ssica",vc:50000.00,com:250.00},
-  {p:3,gc:"856-1791",nome:"Cassia Soares Rollo Silveira",colab:"R\u00e9gis",vc:45000.00,com:225.00},
-  {p:3,gc:"856-659",nome:"Anderson Weber Pereira",colab:"J\u00fanior",vc:22500.00,com:112.50},
-  {p:3,gc:"1126-1851",nome:"Louzada Assessoria cont\u00e1bil",colab:"R\u00e9gis",vc:76469.75,com:382.35},
-  {p:3,gc:"1134-921",nome:"Rodrigo Rickes Bartz",colab:"J\u00e9ssica",vc:140784.41,com:703.92},
-  {p:3,gc:"1137-926",nome:"Louzada Assessoria cont\u00e1bil",colab:"R\u00e9gis",vc:101464.45,com:507.32},
-  {p:3,gc:"1163-409",nome:"Claudia da Silva Muller",colab:"J\u00e9ssica",vc:50000.00,com:250.00},
-  {p:3,gc:"1168-2915",nome:"Jaqueline Silva da Silva",colab:"Lisandra",vc:150000.00,com:750.00},
-  {p:3,gc:"1171-1813",nome:"Jo\u00e3o Pedro Galarraga Jardim",colab:"R\u00e9gis",vc:50000.00,com:250.00},
-  {p:3,gc:"1174-2714",nome:"Morgana da Cunha Larrosa",colab:"Jaguar\u00e3o",vc:50000.00,com:250.00},
-  {p:4,gc:"824-1195",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:30084.25,com:150.42},
-  {p:4,gc:"825-1194",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:24614.08,com:123.07},
-  {p:4,gc:"828-1196",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:49149.52,com:245.75},
-  {p:4,gc:"856-1397",nome:"Gustavo da Rocha Saraiva",colab:"J\u00fanior",vc:25000.00,com:125.00},
-  {p:4,gc:"1143-2070",nome:"Marcio Jose Silva Siqueira",colab:"J\u00e9ssica",vc:170731.73,com:853.66},
-  {p:4,gc:"1146-2071",nome:"Marcio Jose Silva Siqueira",colab:"J\u00e9ssica",vc:107211.30,com:536.06},
+  {p:1,gc:"1132-1937",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:112823.86,com:1011.89},
+  {p:1,gc:"1133-284",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:134918.33,com:846.18},
+  {p:1,gc:"1139-1412",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:135555.69,com:1016.67},
+  {p:1,gc:"1141-1204",nome:"Luis Eduardo Cardoso Lucena",colab:"Ivana",vc:112850.02,com:846.38},
+  {p:1,gc:"1141-1873",nome:"Hotel Franke LTDA",colab:"R\u00e9gis",vc:169275.03,com:1269.56},
+  {p:1,gc:"1177-515",nome:"Luana dos Santos Saraiva",colab:"J\u00e9ssica",vc:100000.00,com:750.00},
+  {p:1,gc:"1177-835",nome:"Antonio Carlos Vilela Nunes",colab:"Lisandra",vc:150000.00,com:1125.00},
+  {p:1,gc:"1178-574",nome:"Tatiane Pereira Roliano",colab:"J\u00e9ssica",vc:200000.00,com:1500.00},
+  {p:2,gc:"839-1674",nome:"Dora Regina Ramires Hisse",colab:"J\u00e9ssica",vc:147134.54,com:367.84},
+  {p:2,gc:"839-402",nome:"Vagner Dias da Silva",colab:"Jaguar\u00e3o",vc:126115.32,com:315.29},
+  {p:2,gc:"840-508",nome:"Robison Souza Ortiz",colab:"R\u00e9gis",vc:47293.26,com:118.23},
+  {p:2,gc:"844-2960",nome:"Jean Feij\u00f3 da Cunha",colab:"R\u00e9gis",vc:41671.16,com:104.18},
+  {p:2,gc:"845-1535",nome:"Eric Alexandre Ribeira da Nobrega",colab:"J\u00e9ssica",vc:258393.50,com:645.98},
+  {p:2,gc:"856-2475",nome:"Renan Peters Rivaroli",colab:"M\u00e1rcio",vc:50000.00,com:125.00},
+  {p:2,gc:"1138-852",nome:"Tiele Librelotto Rubert",colab:"J\u00e9ssica",vc:101666.78,com:254.17},
+  {p:2,gc:"1171-1149",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:100000.00,com:250.00},
+  {p:2,gc:"1171-2098",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:100000.00,com:250.00},
+  {p:2,gc:"1171-2571",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:100000.00,com:250.00},
+  {p:2,gc:"1174-1052",nome:"Patr\u00edcia Faria Os\u00f3rio",colab:"M\u00e1rcio",vc:100000.00,com:250.00},
+  {p:2,gc:"1174-1417",nome:"Crislaine de Campos R Proe\u00e7a",colab:"M\u00e1rcio",vc:100000.00,com:250.00},
+  {p:2,gc:"1174-1497",nome:"Pablo Peters Rivaroli",colab:"M\u00e1rcio",vc:100000.00,com:250.00},
+  {p:2,gc:"1174-1831",nome:"Pablo Peters Rivaroli",colab:"M\u00e1rcio",vc:100000.00,com:250.00},
+  {p:3,gc:"846-2125",nome:"Mateus de Souza Valad\u00e3o",colab:"Lisandra",vc:93021.66,com:232.55},
+  {p:3,gc:"855-1218",nome:"Daizi Spiering",colab:"J\u00e9ssica",vc:100000.00,com:250.00},
+  {p:3,gc:"855-2458",nome:"Claudia da Silva Muller",colab:"J\u00e9ssica",vc:100000.00,com:250.00},
+  {p:3,gc:"856-1791",nome:"Cassia Soares Rollo Silveira",colab:"R\u00e9gis",vc:90000.00,com:225.00},
+  {p:3,gc:"856-659",nome:"Anderson Weber Pereira",colab:"J\u00fanior",vc:45000.00,com:112.50},
+  {p:3,gc:"1126-1851",nome:"Louzada Assessoria cont\u00e1bil",colab:"R\u00e9gis",vc:152939.50,com:382.35},
+  {p:3,gc:"1134-921",nome:"Rodrigo Rickes Bartz",colab:"J\u00e9ssica",vc:281568.82,com:703.92},
+  {p:3,gc:"1137-926",nome:"Louzada Assessoria cont\u00e1bil",colab:"R\u00e9gis",vc:202928.90,com:507.32},
+  {p:3,gc:"1163-409",nome:"Claudia da Silva Muller",colab:"J\u00e9ssica",vc:100000.00,com:250.00},
+  {p:3,gc:"1168-2915",nome:"Jaqueline Silva da Silva",colab:"Lisandra",vc:300000.00,com:750.00},
+  {p:3,gc:"1171-1813",nome:"Jo\u00e3o Pedro Galarraga Jardim",colab:"R\u00e9gis",vc:100000.00,com:250.00},
+  {p:3,gc:"1174-2714",nome:"Morgana da Cunha Larrosa",colab:"Jaguar\u00e3o",vc:100000.00,com:250.00},
+  {p:4,gc:"824-1195",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:60168.50,com:150.42},
+  {p:4,gc:"825-1194",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:49228.16,com:123.07},
+  {p:4,gc:"828-1196",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:98299.04,com:245.75},
+  {p:4,gc:"856-1397",nome:"Gustavo da Rocha Saraiva",colab:"J\u00fanior",vc:50000.00,com:125.00},
+  {p:4,gc:"1143-2070",nome:"Marcio Jose Silva Siqueira",colab:"J\u00e9ssica",vc:341463.46,com:853.66},
+  {p:4,gc:"1146-2071",nome:"Marcio Jose Silva Siqueira",colab:"J\u00e9ssica",vc:214422.60,com:536.06},
   {p:4,gc:"1169-1784",nome:"Augusto Duarte Duarte",colab:"R\u00e9gis",vc:100000.00,com:250.00},
-  {p:4,gc:"1170-1623",nome:"Camila da Costa",colab:"M\u00e1rcio",vc:100000.00,com:500.00},
-  {p:4,gc:"1170-1624",nome:"Camila da Costa",colab:"M\u00e1rcio",vc:100000.00,com:500.00},
-  {p:4,gc:"1171-1236",nome:"Cristiano Victoria Fagundes",colab:"J\u00e9ssica",vc:50000.00,com:250.00},
-  {p:4,gc:"1171-524",nome:"Yan Rodrigues Amaro Galarce",colab:"J\u00e9ssica",vc:75000.00,com:375.00},
-  {p:4,gc:"10724-165",nome:"Daiane Spinoza Cunha",colab:"J\u00e9ssica",vc:78393.00,com:235.18,pct:0.30},
-  {p:5,gc:"840-2894",nome:"Dioni de Souza Sandi",colab:"M\u00e1rcio",vc:22332.92,com:223.33},
-  {p:5,gc:"1104-372",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:59625.66,com:596.26},
-  {p:5,gc:"1107-1763",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:59365.87,com:593.66},
-  {p:5,gc:"1109-1765",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:56445.15,com:564.45},
-  {p:5,gc:"1116-1094",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:58233.47,com:582.33},
-  {p:5,gc:"1116-948",nome:"Diego Joanol de Joanol",colab:"R\u00e9gis",vc:52410.12,com:524.10},
-  {p:5,gc:"1119-841",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:58324.59,com:583.25},
-  {p:5,gc:"1138-1764",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:56481.54,com:564.82},
-  {p:5,gc:"1168-1371",nome:"Enio Ramos Fernandes",colab:"M\u00e1rcio",vc:150000.00,com:1500.00},
+  {p:4,gc:"1170-1623",nome:"Camila da Costa",colab:"M\u00e1rcio",vc:200000.00,com:500.00},
+  {p:4,gc:"1170-1624",nome:"Camila da Costa",colab:"M\u00e1rcio",vc:200000.00,com:500.00},
+  {p:4,gc:"1171-1236",nome:"Cristiano Victoria Fagundes",colab:"J\u00e9ssica",vc:100000.00,com:250.00},
+  {p:4,gc:"1171-524",nome:"Yan Rodrigues Amaro Galarce",colab:"J\u00e9ssica",vc:150000.00,com:375.00},
+  {p:5,gc:"840-2894",nome:"Dioni de Souza Sandi",colab:"M\u00e1rcio",vc:44665.84,com:223.33},
+  {p:5,gc:"1104-372",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:119251.32,com:596.26},
+  {p:5,gc:"1107-1763",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:118731.74,com:593.66},
+  {p:5,gc:"1109-1765",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:112890.30,com:564.45},
+  {p:5,gc:"1116-1094",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:116466.94,com:582.33},
+  {p:5,gc:"1116-948",nome:"Diego Joanol de Joanol",colab:"R\u00e9gis",vc:104820.24,com:524.10},
+  {p:5,gc:"1119-841",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:116649.18,com:583.25},
+  {p:5,gc:"1138-1764",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:112963.08,com:564.82},
+  {p:5,gc:"1168-1371",nome:"Enio Ramos Fernandes",colab:"M\u00e1rcio",vc:300000.00,com:1500.00},
   {p:5,gc:"1169-1037",nome:"Elton Henrique Bernardi Vasconcelos",colab:"M\u00e1rcio",vc:100000.00,com:500.00},
   {p:5,gc:"1169-1076",nome:"Raul Luiz Gon\u00e7alves Garr\u00e9",colab:"R\u00e9gis",vc:100000.00,com:500.00},
   {p:5,gc:"1169-1291",nome:"NAVE",colab:"R\u00e9gis",vc:100000.00,com:500.00},
@@ -210,8 +209,9 @@ const COMISSOES_IND={
     {p:1,gc:"1177-515",nome:"Luana dos Santos Saraiva",credito:100000.00,pct:"0,3%",total:300.00},
     {p:1,gc:"1178-574",nome:"Tatiane Pereira Roliano",credito:200000.00,pct:"0,3%",total:600.00},
     {p:2,gc:"839-1674",nome:"Dora Regina Ramires Hisse",credito:147134.54,pct:"0,2%",total:294.27},
-    {p:2,gc:"845-1535",nome:"Eric Alexandre Ribeira da Nobrega",credito:258393.50,pct:"0,2%",total:516.79},
+    {p:2,gc:"845-1535",nome:"Eric Alexandre Ribeira da Nobrega",credito:250000.00,pct:"0,2%",total:500.00},
     {p:2,gc:"1138-852",nome:"Tiele Librelotto Rubert",credito:101666.78,pct:"0,2%",total:203.33},
+    {p:2,gc:"1174-2590",nome:"Fernanda Graciela Oliveira da Silva",credito:100000.00,pct:"0,2%",total:200.00},
     {p:3,gc:"AF283-481",nome:"Claudia da Silva Muller",credito:65768.75,pct:"0,2%",total:131.54},
     {p:3,gc:"AF283-219",nome:"Claudia da Silva Muller",credito:65768.75,pct:"0,2%",total:131.54},
     {p:3,gc:"855-2458",nome:"Claudia da Silva Muller",credito:100000.00,pct:"0,1%",total:100.00},
@@ -311,7 +311,8 @@ function renderFechamento(subTab){
   const pKeys=['p1','p2','p3','p4','p5'];
   const parcelas={};
   pKeys.forEach(k=>{parcelas[k]={itens:[],liquido:0};});
-  ADM.forEach(r=>{const k='p'+r.p;if(parcelas[k]){parcelas[k].itens.push(r);parcelas[k].liquido+=r.com;}});
+  const ADM_RATES={1:0.75,2:0.25,3:0.25,4:0.25,5:0.50};
+  ADM.forEach(r=>{const k='p'+r.p;if(parcelas[k]){const rate=r.pct!=null?r.pct:ADM_RATES[r.p];const com=Math.round(r.vc*(rate/100)*100)/100;const item={...r,_com:com,_rate:rate};parcelas[k].itens.push(item);if(!r.ext)parcelas[k].liquido+=com;}});
   pKeys.forEach(k=>{parcelas[k].liquido=Math.round(parcelas[k].liquido*100)/100;});
   const totalComissoes=pKeys.reduce((a,k)=>a+parcelas[k].liquido,0);
   const totalEstornos=ESTORNOS.reduce((a,e)=>a+e.comissao,0);
@@ -326,7 +327,7 @@ function renderFechamento(subTab){
   pKeys.forEach(k=>{const n=k[1];html+=`<button class="subtab ${subTab===k?'active':''}" onclick="renderFechamento('${k}')">Parcela ${n} \u00b7 ${brl(parcelas[k].liquido)}</button>`;});
   html+=`</div>`;
   const p=parcelas[subTab];const pNum=subTab[1];
-  html+=`<div class="subpanel active"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="section-title" style="margin:0;flex:1">Parcela ${pNum} \u2014 ${p.itens.length} cotas</div><div style="font-family:var(--titles);font-size:13px;color:var(--accent-bright);font-weight:700">${brl(p.liquido)}</div></div><div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor do Cr\u00e9dito</th><th>% ADM</th><th>Comiss\u00e3o Bruta</th></tr></thead><tbody>${p.itens.map((it,i)=>`<tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}"><td style="font-weight:600">${it.gc}</td><td>${it.nome}</td><td>${it.colab}</td><td>${brl(it.vc)}</td><td style="color:var(--t3)">${it.pct||'0.75'}%</td><td style="color:var(--accent-bright);font-weight:600">${brl(it.com)}</td></tr>`).join("")}</tbody></table></div></div>`;
+  html+=`<div class="subpanel active"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="section-title" style="margin:0;flex:1">Parcela ${pNum} \u2014 ${p.itens.length} cotas</div><div style="font-family:var(--titles);font-size:13px;color:var(--accent-bright);font-weight:700">${brl(p.liquido)}</div></div><div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor do Cr\u00e9dito</th><th>% ADM</th><th>Comiss\u00e3o Bruta</th></tr></thead><tbody>${p.itens.map((it,i)=>`<tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}"><td style="font-weight:600">${it.gc}</td><td>${it.nome}</td><td>${it.colab}</td><td>${brl(it.vc)}</td><td style="color:var(--t3)">${it._rate}%</td><td style="color:var(--accent-bright);font-weight:600">${brl(it._com)}</td></tr>`).join("")}</tbody></table></div></div>`;
   html+=`<div class="fech-section"><div class="fech-section-header"><h3 style="color:var(--danger)">Estornos do Per\u00edodo</h3><span class="pill estorno">${ESTORNOS.length} cotas \u00b7 -${brl(totalEstornos)}</span></div>${ESTORNOS.length>0?`<div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor Cr\u00e9dito</th><th>% ADM</th><th>Estorno</th></tr></thead><tbody>${ESTORNOS.map((e,i)=>`<tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}"><td style="font-weight:600;color:var(--danger)">${e.gc}</td><td>${e.nome}</td><td>${e.colab}</td><td>${brl(e.valor)}</td><td style="color:var(--t3)">${e.pct}%</td><td style="color:var(--danger);font-weight:700">-${brl(e.comissao)}</td></tr>`).join("")}</tbody></table></div>`:`<p style="font-family:var(--body);font-size:12px;color:var(--success)">\u2713 Nenhum estorno neste per\u00edodo.</p>`}</div>`;
   html+=`<div class="fech-section"><div class="fech-section-header"><h3 style="color:var(--warn)">Contempla\u00e7\u00f5es do Per\u00edodo</h3><span class="pill contemplacao">${CONTEMPLACOES.length} cota${CONTEMPLACOES.length!==1?'s':''}</span></div>${CONTEMPLACOES.length>0?`<div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor</th><th>Observa\u00e7\u00e3o</th></tr></thead><tbody>${CONTEMPLACOES.map(c=>`<tr><td style="font-weight:600;color:var(--warn)">${c.gc}</td><td>${c.nome}</td><td>${c.colab}</td><td>${brl(c.valor)}</td><td style="color:var(--t2)">${c.obs||'\u2014'}</td></tr>`).join("")}</tbody></table></div>`:`<p style="font-family:var(--body);font-size:12px;color:var(--t3)">Nenhuma contempla\u00e7\u00e3o registrada neste per\u00edodo.</p>`}</div>`;
   document.getElementById("tab-fechamento").innerHTML=html;
