@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mauro Motta Consórcios — Controle Semanal de Vendas</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Codec Pro';
+    src: local('Codec Pro'), local('CodecPro');
+    /* Fallback to similar geometric sans if Codec Pro is unavailable */
+  }
+
+  :root {
+    --bg:      #0B0F1A;
+    --bg2:     #111827;
+    --bg3:     #1C2333;
+    --bd:      #2A3347;
+    --accent:  #bd341d;
+    --accent-bright: #d9472e;
+    --accent2: #F5E6E2;
+    --warn:    #E8A045;
+    --danger:  #EF4444;
+    --success: #4CAF82;
+    --t1:      #F5F0EE;
+    --t2:      #B8ABA6;
+    --t3:      #5A4F4A;
+    --titles:  'Inter', sans-serif;
+    --body:    'Codec Pro', 'DM Sans', 'Nunito Sans', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--t1); font-family: var(--body); min-height: 100vh; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+  .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ── Header ── */
+  .page-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--bd);
+  }
+  .logo-area h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: var(--t1); font-family: var(--titles); }
+  .logo-area h1 span { color: var(--accent); }
+  .logo-area p { font-size: 13px; color: var(--t2); margin-top: 4px; font-family: var(--body); }
+  .periodo-badge {
+    background: var(--bg3); border: 1px solid var(--bd); border-radius: 8px;
+    padding: 8px 16px; font-size: 12px; font-family: var(--body); color: var(--accent-bright);
+  }
+
+  /* ── Section title ── */
+  .section-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--t3); font-family: var(--titles); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--bd); }
+
+  /* ── Tables ── */
+  .table-wrap { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead tr { background: var(--bg3); }
+  th { padding: 10px 12px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); font-family: var(--titles); border-bottom: 1px solid var(--bd); }
+  td { padding: 10px 12px; border-bottom: 1px solid rgba(42,51,71,0.5); color: var(--t1); font-family: var(--body); font-size: 12px; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(189,52,29,0.04); }
+
+  .badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 3px 9px; border-radius: 5px; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.5px; font-family: var(--body);
+  }
+  .badge.ok       { background: rgba(76,175,130,0.12); color: var(--success); }
+  .badge.nok      { background: rgba(239,68,68,0.15);  color: var(--danger);  }
+  .badge.imovel   { background: rgba(189,52,29,0.15);  color: #E8806E;        }
+  .badge.veiculo  { background: rgba(245,230,226,0.10);color: var(--accent2); }
+
+  /* ── Semana blocks ── */
+  .semanas-wrap { display: flex; flex-direction: column; gap: 16px; margin-bottom: 2rem; }
+  .semana-block { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; overflow: hidden; }
+  .semana-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; background: var(--bg3); border-bottom: 1px solid var(--bd);
+  }
+  .semana-header .sh-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--accent-bright); font-family: var(--titles);
+  }
+  .semana-header .sh-count {
+    font-size: 11px; color: var(--t3); font-family: var(--body);
+  }
+  .semana-empty {
+    padding: 20px 16px;
+    font-size: 12px; color: var(--t3); font-family: var(--body);
+    font-style: italic;
+  }
+
+  /* ── Resultados ── */
+  .resultados-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1rem; }
+  .res-card { background: var(--bg3); border: 1px solid var(--bd); border-radius: 8px; padding: 1rem; }
+  .res-card .r-label { font-size: 10px; color: var(--t3); font-family: var(--titles); text-transform: uppercase; letter-spacing: 1px; }
+  .res-card .r-val   { font-size: 20px; font-weight: 700; color: var(--accent2); margin-top: 4px; font-family: var(--titles); }
+  .res-card .r-sub   { font-size: 11px; color: var(--t2); font-family: var(--body); margin-top: 3px; }
+
+  /* ── Prospecções ── */
+  .prosp-section { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; padding: 1.25rem; }
+
+  /* ── Accent bar on total card ── */
+  .res-card.highlight { border-color: var(--accent); }
+  .res-card.highlight .r-val { color: var(--accent-bright); }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    .page-header      { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .resultados-grid  { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="page-header">
+    <div class="logo-area">
+      <h1>Mauro Motta <span>Consórcios</span></h1>
+      <p>Controle semanal de vendas · Maio 2026</p>
+    </div>
+    <div class="periodo-badge" id="periodo-display"></div>
+  </div>
+
+  <div id="conteudo"></div>
+
+</div>
+
+<script>
+// ── PERÍODO ─────────────────────────────────────────────────────────
+const PERIODO = "26/04/2026 – 25/05/2026";
+
+// ── TOTAL DE SEMANAS NO PERÍODO ─────────────────────────────────────
+const TOTAL_SEMANAS = 4;
+
+// ── VENDAS ──────────────────────────────────────────────────────────
+const VENDAS = [
+  { semana:0, data:"30/04/2026", gc:"844-1802",  nome:"Yuri Correa Madruga",          mod:"Veículo", colab:"Jéssica", valor:41671.26,  pago:true },
+  { semana:0, data:"30/04/2026", gc:"1138-634",  nome:"Bruna Dias Ferreira",           mod:"Imóvel",  colab:"Jéssica", valor:101666.77, pago:true },
+  { semana:2, data:"11/04/2026", gc:"835-41",    nome:"Eduardo Moreira Palma",         mod:"Veículo", colab:"Régis",   valor:31560.48,  pago:true },
+];
+
+// ── PROSPECÇÕES ─────────────────────────────────────────────────────
+const PROSPECCOES = [];
+
+/* ═══════════════════════ FIM DA ÁREA DE DADOS ═══════════════════════ */
+
+const brl = v => (+v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+
+function render() {
+  const todasSemanas = [0, ...Array.from({length: TOTAL_SEMANAS}, (_,i) => i+1)];
+
+  const colabtotals = {};
+  VENDAS.forEach(v => {
+    if (!colabtotals[v.colab]) colabtotals[v.colab] = {cotas:0, total:0};
+    colabtotals[v.colab].cotas++;
+    colabtotals[v.colab].total += v.valor;
+  });
+  const grandTotal  = VENDAS.reduce((a,v)=>a+v.valor,0);
+  const ticketMedio = VENDAS.length > 0 ? grandTotal / VENDAS.length : 0;
+
+  // ── Blocos por semana ──
+  let semanasHtml = `<div class="semanas-wrap">`;
+
+  todasSemanas.forEach(sem => {
+    const vv = VENDAS.filter(v => v.semana === sem);
+    const label = sem === 0 ? "Semana 0" : `Semana ${sem}`;
+
+    semanasHtml += `
+    <div class="semana-block">
+      <div class="semana-header">
+        <span class="sh-label">${label}</span>
+        <span class="sh-count">${vv.length > 0 ? vv.length + ' venda' + (vv.length!==1?'s':'') : 'sem vendas'}</span>
+      </div>`;
+
+    if (vv.length === 0) {
+      semanasHtml += `<div class="semana-empty">Não houve vendas nesta semana.</div>`;
+    } else {
+      semanasHtml += `
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th><th>Grupo-Cota</th><th>Consorciado</th>
+            <th>Modalidade</th><th>Colaborador</th><th>Valor</th><th>Pago e Assinado</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${vv.map((v,i) => `
+          <tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}">
+            <td style="color:var(--t2)">${v.data}</td>
+            <td style="font-weight:600">${v.gc}</td>
+            <td>${v.nome}</td>
+            <td><span class="badge ${v.mod==='Imóvel'?'imovel':'veiculo'}">${v.mod}</span></td>
+            <td>${v.colab}</td>
+            <td style="color:var(--accent-bright);font-weight:600">${brl(v.valor)}</td>
+            <td style="text-align:center">
+              ${v.pago
+                ? `<span class="badge ok">✔ Sim</span>`
+                : `<span class="badge nok">✘ Pendente</span>`}
+            </td>
+          </tr>`).join("")}
+        </tbody>
+      </table>`;
+    }
+
+    semanasHtml += `</div>`;
+  });
+
+  semanasHtml += `</div>`;
+
+  // ── Resultados ──
+  const sorted = Object.entries(colabtotals).sort((a,b)=>b[1].total-a[1].total);
+  const resultadosHtml = `
+  <div class="section-title">Resultados do Período</div>
+  <div class="resultados-grid">
+    <div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Colaborador</th><th style="text-align:center">Cotas</th><th>Total de Vendas</th></tr></thead>
+          <tbody>
+            ${sorted.map(([ nome, d ],i) => `
+            <tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}">
+              <td style="font-weight:600">${nome}</td>
+              <td style="text-align:center">${d.cotas}</td>
+              <td style="color:var(--accent-bright);font-weight:600">${brl(d.total)}</td>
+            </tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="res-card highlight">
+        <div class="r-label">Total de Vendas</div>
+        <div class="r-val">${brl(grandTotal)}</div>
+        <div class="r-sub">${VENDAS.length} cota${VENDAS.length!==1?'s':''} vendidas</div>
+      </div>
+      <div class="res-card">
+        <div class="r-label">Ticket Médio</div>
+        <div class="r-val" style="color:var(--accent2)">${brl(ticketMedio)}</div>
+        <div class="r-sub">por cota</div>
+      </div>
+    </div>
+  </div>`;
+
+  // ── Prospecções ──
+  const totalProsp = PROSPECCOES.reduce((a,p)=>a+(p.valor||0),0);
+  const prospHtml = `
+  <div style="margin-top:2rem">
+    <div class="section-title">Prospecções</div>
+    <div class="prosp-section">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Parceiro</th><th>Consorciado</th><th>Modalidade</th><th>Valor (estimativa)</th></tr></thead>
+          <tbody>
+            ${PROSPECCOES.length > 0
+              ? PROSPECCOES.map((p,i)=>`
+                <tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}">
+                  <td style="color:var(--t2)">${p.parceiro}</td>
+                  <td>${p.nome||'—'}</td>
+                  <td>${p.mod?`<span class="badge ${p.mod==='Imóvel'?'imovel':'veiculo'}">${p.mod}</span>`:'—'}</td>
+                  <td style="color:var(--accent-bright)">${p.valor?brl(p.valor):'—'}</td>
+                </tr>`).join("")
+              : `<tr><td style="color:var(--t3)">Jéssica</td><td>—</td><td>—</td><td>—</td></tr>
+                 <tr style="background:rgba(28,35,51,0.4)"><td style="color:var(--t3)">Márcio</td><td>—</td><td>—</td><td>—</td></tr>`
+            }
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:10px">
+        <div style="background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:8px 20px;font-family:var(--body);font-size:12px">
+          <span style="color:var(--t3)">Total prospecções:</span>
+          <strong style="margin-left:8px;color:var(--t2)">${brl(totalProsp)}</strong>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById("conteudo").innerHTML = semanasHtml + resultadosHtml + prospHtml;
+}
+
+document.getElementById("periodo-display").textContent = PERIODO;
+render();
+</script>
+</body>
+</html>
