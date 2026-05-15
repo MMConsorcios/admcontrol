@@ -112,10 +112,44 @@
   .res-card.highlight { border-color: var(--accent); }
   .res-card.highlight .r-val { color: var(--accent-bright); }
 
+  /* ── Pagamentos ── */
+  .pagamentos-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+  .pag-card { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; padding: 1.1rem 1.25rem; }
+  .pag-card.highlight { border-color: var(--accent); }
+  .pag-card .p-label { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: 1px; font-family: var(--titles); }
+  .pag-card .p-val   { font-size: 22px; font-weight: 700; margin-top: 5px; font-family: var(--titles); line-height: 1; }
+  .pag-card .p-sub   { font-size: 11px; color: var(--t2); margin-top: 4px; font-family: var(--body); }
+  .pag-card .p-sub2  { font-size: 11px; color: var(--t2); margin-top: 2px; font-family: var(--body); }
+  .prog-wrap { margin-top: 10px; background: var(--bg3); border-radius: 3px; height: 6px; overflow: hidden; }
+  .prog-bar  { height: 100%; border-radius: 3px; }
+
+  /* ── Scorecard ── */
+  .scorecard-wrap { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
+  .sc-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(42,51,71,0.5); }
+  .sc-row:last-child { border-bottom: none; }
+  .sc-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .sc-name  { font-size: 13px; font-weight: 600; color: var(--t1); font-family: var(--body); }
+  .sc-sub   { font-size: 11px; color: var(--t3); font-family: var(--body); margin-top: 2px; }
+  .sc-val   { margin-left: auto; font-size: 14px; font-weight: 700; font-family: var(--titles); }
+
+  /* ── Donuts ── */
+  .donuts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .donut-card { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; padding: 1.1rem 1.25rem; }
+  .donut-card .dc-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--t3); font-family: var(--titles); margin-bottom: 14px; }
+  .donut-row { display: flex; align-items: center; gap: 16px; }
+  .donut-leg { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .dl-item { display: flex; align-items: center; gap: 7px; font-size: 11px; font-family: var(--body); }
+  .dl-dot  { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .dl-name { color: var(--t2); flex: 1; }
+  .dl-pct  { font-weight: 700; font-size: 11px; }
+  .dl-sub  { font-size: 10px; color: var(--t3); margin-left: 16px; }
+  .dl-sep  { border-top: 1px solid var(--bd); margin: 4px 0; }
+
   /* ── Responsive ── */
   @media (max-width: 720px) {
     .page-header      { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .resultados-grid  { grid-template-columns: 1fr; }
+    .pagamentos-grid  { grid-template-columns: 1fr; }
+    .donuts-grid      { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -162,6 +196,7 @@ const PROSPECCOES = [];
 /* ═══════════════════════ FIM DA ÁREA DE DADOS ═══════════════════════ */
 
 const brl = v => (+v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const hexRgba = (hex, a) => { const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); return `rgba(${r},${g},${b},${a})`; };
 
 function render() {
   const todasSemanas = [0, ...Array.from({length: SEMANAS_VISIVEIS}, (_,i) => i+1)];
@@ -235,70 +270,166 @@ function render() {
 
   // ── Resultados ──
   const sorted = Object.entries(colabtotals).sort((a,b)=>b[1].total-a[1].total);
-  const resultadosHtml = `
-  <div class="section-title">Resultados do Período</div>
-  <div class="resultados-grid">
-    <div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Colaborador</th><th style="text-align:center">Cotas</th><th>Total de Vendas</th></tr></thead>
-          <tbody>
-            ${sorted.map(([ nome, d ],i) => `
-            <tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}">
-              <td style="font-weight:600">${nome}</td>
-              <td style="text-align:center">${d.cotas}</td>
-              <td style="color:var(--accent-bright);font-weight:600">${brl(d.total)}</td>
-            </tr>`).join("")}
-          </tbody>
-        </table>
-      </div>
+
+  // Pagamentos
+  const totalPago     = VENDAS.filter(v => v.pago).reduce((a,v)=>a+v.valor, 0);
+  const totalPendente = VENDAS.filter(v => !v.pago).reduce((a,v)=>a+v.valor, 0);
+  const cotasPagas    = VENDAS.filter(v => v.pago).length;
+  const cotasPend     = VENDAS.filter(v => !v.pago).length;
+  const pctPago       = grandTotal > 0 ? totalPago / grandTotal * 100 : 0;
+  const pctPend       = grandTotal > 0 ? totalPendente / grandTotal * 100 : 0;
+
+  const pagamentosHtml = `
+  <div class="pagamentos-grid">
+    <div class="pag-card highlight">
+      <div class="p-label">Total do Período</div>
+      <div class="p-val" style="color:var(--accent-bright)">${brl(grandTotal)}</div>
+      <div class="p-sub">${VENDAS.length} cota${VENDAS.length!==1?'s':''} vendidas</div>
+      <div class="p-sub2">Ticket médio: ${brl(ticketMedio)}</div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div class="res-card highlight">
-        <div class="r-label">Total de Vendas</div>
-        <div class="r-val">${brl(grandTotal)}</div>
-        <div class="r-sub">${VENDAS.length} cota${VENDAS.length!==1?'s':''} vendidas</div>
-      </div>
-      <div class="res-card">
-        <div class="r-label">Ticket Médio</div>
-        <div class="r-val" style="color:var(--accent2)">${brl(ticketMedio)}</div>
-        <div class="r-sub">por cota</div>
-      </div>
+    <div class="pag-card">
+      <div class="p-label">Pago e Assinado</div>
+      <div class="p-val" style="color:var(--success)">${brl(totalPago)}</div>
+      <div class="p-sub">${cotasPagas} cota${cotasPagas!==1?'s':''} · ${pctPago.toFixed(1)}%</div>
+      <div class="prog-wrap"><div class="prog-bar" style="width:${pctPago.toFixed(1)}%;background:var(--success)"></div></div>
+    </div>
+    <div class="pag-card">
+      <div class="p-label">Pendente</div>
+      <div class="p-val" style="color:var(--danger)">${brl(totalPendente)}</div>
+      <div class="p-sub">${cotasPend} cota${cotasPend!==1?'s':''} · ${pctPend.toFixed(1)}%</div>
+      <div class="prog-wrap"><div class="prog-bar" style="width:${pctPend.toFixed(1)}%;background:var(--danger)"></div></div>
     </div>
   </div>`;
 
-  // ── Prospecções ──
-  const totalProsp = PROSPECCOES.reduce((a,p)=>a+(p.valor||0),0);
-  const prospHtml = `
-  <div style="margin-top:2rem">
-    <div class="section-title">Prospecções</div>
-    <div class="prosp-section">
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Parceiro</th><th>Consorciado</th><th>Modalidade</th><th>Valor (estimativa)</th></tr></thead>
-          <tbody>
-            ${PROSPECCOES.length > 0
-              ? PROSPECCOES.map((p,i)=>`
-                <tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}">
-                  <td style="color:var(--t2)">${p.parceiro}</td>
-                  <td>${p.nome||'—'}</td>
-                  <td>${p.mod?`<span class="badge ${p.mod==='Imóvel'?'imovel':'veiculo'}">${p.mod}</span>`:'—'}</td>
-                  <td style="color:var(--accent-bright)">${p.valor?brl(p.valor):'—'}</td>
-                </tr>`).join("")
-              : `<tr><td style="color:var(--t3)">Jéssica</td><td>—</td><td>—</td><td>—</td></tr>
-                 <tr style="background:rgba(28,35,51,0.4)"><td style="color:var(--t3)">Márcio</td><td>—</td><td>—</td><td>—</td></tr>`
-            }
-          </tbody>
-        </table>
+  // Scorecard de colaboradores
+  const CORES_COLAB = { 'Ivana': '#4A90D9', 'Jéssica': '#4CAF82', 'Régis': '#E8A045' };
+  const COR_DEFAULT = '#A78BFA';
+
+  const scorecardHtml = `
+  <div class="scorecard-wrap">
+    ${sorted.map(([nome, d]) => {
+      const imovel  = VENDAS.filter(v => v.colab === nome && v.mod === 'Imóvel').length;
+      const veiculo = VENDAS.filter(v => v.colab === nome && v.mod === 'Veículo').length;
+      const color   = CORES_COLAB[nome] || COR_DEFAULT;
+      const avBg    = hexRgba(color, 0.15);
+      const initials = nome.trim().substring(0,2).toUpperCase();
+      const subParts = [`${d.cotas} cota${d.cotas!==1?'s':''}`];
+      if (imovel)  subParts.push(`${imovel} Imóvel`);
+      if (veiculo) subParts.push(`${veiculo} Veículo`);
+      return `
+      <div class="sc-row">
+        <div class="sc-avatar" style="background:${avBg};border:1px solid ${color};color:${color}">${initials}</div>
+        <div style="display:flex;flex-direction:column">
+          <span class="sc-name">${nome}</span>
+          <span class="sc-sub">${subParts.join(' · ')}</span>
+        </div>
+        <span class="sc-val" style="color:${color}">${brl(d.total)}</span>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  // Gráfico donut
+  const COR_PAGO     = '#4CAF82';
+  const COR_PENDENTE = '#EF4444';
+  const CIRCUNFERENCIA = 2 * Math.PI * 40;
+
+  function gerarArcos(fatias) {
+    let acumulado = 0;
+    return fatias.map(f => {
+      const dash   = f.pct * CIRCUNFERENCIA;
+      const gap    = CIRCUNFERENCIA - dash;
+      const result = { ...f, dash, gap, offset: CIRCUNFERENCIA - acumulado };
+      acumulado += dash;
+      return result;
+    });
+  }
+
+  // Donut esquerdo — vendas por colaborador
+  const fatiasColab = gerarArcos(
+    sorted.map(([nome, d]) => ({
+      cor: CORES_COLAB[nome] || COR_DEFAULT,
+      pct: grandTotal > 0 ? d.total / grandTotal : 0,
+      nome,
+      total: d.total,
+    }))
+  );
+
+  // Donut direito — status de pagamento
+  const pPago      = grandTotal > 0 ? totalPago / grandTotal : 0;
+  const pPendente  = grandTotal > 0 ? totalPendente / grandTotal : 0;
+  const pctPagoStr = (pPago * 100).toFixed(1).replace('.', ',') + '%';
+
+  const fatiasPag = gerarArcos([
+    { cor: COR_PAGO,     pct: pPago,     nome: 'Pago e assinado', total: totalPago,     qtd: cotasPagas },
+    { cor: COR_PENDENTE, pct: pPendente, nome: 'Pendente',        total: totalPendente, qtd: cotasPend  },
+  ]);
+
+  const donutHtml = `
+  <div class="donuts-grid">
+    <div class="donut-card">
+      <div class="dc-title">Vendas por colaborador</div>
+      <div class="donut-row">
+        <svg viewBox="0 0 110 110" width="110" height="110" style="flex-shrink:0">
+          <circle cx="55" cy="55" r="40" fill="none" stroke="var(--bg3)" stroke-width="22"/>
+          ${fatiasColab.map(f => `
+          <circle cx="55" cy="55" r="40" fill="none"
+            stroke="${f.cor}" stroke-width="22"
+            stroke-dasharray="${f.dash.toFixed(2)} ${f.gap.toFixed(2)}"
+            stroke-dashoffset="${f.offset.toFixed(2)}"
+            transform="rotate(-90 55 55)"/>`).join('')}
+          <text x="55" y="51" text-anchor="middle" font-size="9" fill="var(--t2)" font-family="Inter,sans-serif">Total</text>
+          <text x="55" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="var(--t1)" font-family="Inter,sans-serif">${VENDAS.length} cotas</text>
+        </svg>
+        <div class="donut-leg">
+          ${fatiasColab.map(f => `
+          <div class="dl-item">
+            <div class="dl-dot" style="background:${f.cor}"></div>
+            <span class="dl-name">${f.nome}</span>
+            <span class="dl-pct" style="color:${f.cor}">${(f.pct*100).toFixed(1)}%</span>
+          </div>`).join('')}
+          <div class="dl-sep"></div>
+          <div class="dl-sub">${brl(grandTotal)}</div>
+        </div>
       </div>
-      <div style="display:flex;justify-content:flex-end;margin-top:10px">
-        <div style="background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:8px 20px;font-family:var(--body);font-size:12px">
-          <span style="color:var(--t3)">Total prospecções:</span>
-          <strong style="margin-left:8px;color:var(--t2)">${brl(totalProsp)}</strong>
+    </div>
+    <div class="donut-card">
+      <div class="dc-title">Status de pagamento</div>
+      <div class="donut-row">
+        <svg viewBox="0 0 110 110" width="110" height="110" style="flex-shrink:0">
+          <circle cx="55" cy="55" r="40" fill="none" stroke="var(--bg3)" stroke-width="22"/>
+          ${fatiasPag.map(f => `
+          <circle cx="55" cy="55" r="40" fill="none"
+            stroke="${f.cor}" stroke-width="22"
+            stroke-dasharray="${f.dash.toFixed(2)} ${f.gap.toFixed(2)}"
+            stroke-dashoffset="${f.offset.toFixed(2)}"
+            transform="rotate(-90 55 55)"/>`).join('')}
+          <text x="55" y="51" text-anchor="middle" font-size="9" fill="${COR_PAGO}" font-family="Inter,sans-serif">Pago</text>
+          <text x="55" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="${COR_PAGO}" font-family="Inter,sans-serif">${pctPagoStr}</text>
+        </svg>
+        <div class="donut-leg">
+          <div class="dl-item">
+            <div class="dl-dot" style="background:${COR_PAGO}"></div>
+            <span class="dl-name">Pago e assinado</span>
+            <span class="dl-pct" style="color:${COR_PAGO}">${(pPago*100).toFixed(1)}%</span>
+          </div>
+          <div class="dl-sub">${brl(totalPago)} · ${cotasPagas} cota${cotasPagas!==1?'s':''}</div>
+          <div class="dl-sep"></div>
+          <div class="dl-item">
+            <div class="dl-dot" style="background:${COR_PENDENTE}"></div>
+            <span class="dl-name">Pendente</span>
+            <span class="dl-pct" style="color:${COR_PENDENTE}">${(pPendente*100).toFixed(1)}%</span>
+          </div>
+          <div class="dl-sub">${brl(totalPendente)} · ${cotasPend} cota${cotasPend!==1?'s':''}</div>
         </div>
       </div>
     </div>
   </div>`;
+
+  const resultadosHtml = `
+  <div class="section-title">Resultados do Período</div>
+  ${pagamentosHtml}
+  ${scorecardHtml}
+  ${donutHtml}`;
 
   document.getElementById("conteudo").innerHTML = semanasHtml + resultadosHtml;
 }
