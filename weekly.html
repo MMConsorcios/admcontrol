@@ -141,11 +141,19 @@ const PERIODO = "26/04/2026 – 25/05/2026";
 // ── TOTAL DE SEMANAS NO PERÍODO ─────────────────────────────────────
 const TOTAL_SEMANAS = 4;
 
+// ── SEMANAS VISÍVEIS (oculta semanas futuras) ────────────────────────
+const SEMANAS_VISIVEIS = 2;
+
 // ── VENDAS ──────────────────────────────────────────────────────────
 const VENDAS = [
-  { semana:0, data:"30/04/2026", gc:"844-1802",  nome:"Yuri Correa Madruga",          mod:"Veículo", colab:"Jéssica", valor:41671.26,  pago:true },
-  { semana:0, data:"30/04/2026", gc:"1138-634",  nome:"Bruna Dias Ferreira",           mod:"Imóvel",  colab:"Jéssica", valor:101666.77, pago:true },
-  { semana:2, data:"11/04/2026", gc:"835-41",    nome:"Eduardo Moreira Palma",         mod:"Veículo", colab:"Régis",   valor:31560.48,  pago:true },
+  { semana:0, data:"30/04/2026", gc:"844-1802",  nome:"Yuri Correa Madruga",                  mod:"Veículo", colab:"Jéssica", valor:41671.26,  pago:true  },
+  { semana:0, data:"30/04/2026", gc:"1138-634",  nome:"Bruna Dias Ferreira",                  mod:"Imóvel",  colab:"Jéssica", valor:101666.77, pago:true  },
+  { semana:2, data:"11/04/2026", gc:"835-41",    nome:"Eduardo Moreira Palma",                mod:"Veículo", colab:"Régis",   valor:31560.48,  pago:true  },
+  { semana:2, data:"13/04/2026", gc:"840-2064",  nome:"Juarez Rodrigues de Freitas",          mod:"Veículo", colab:"Ivana",   valor:35732.67,  pago:false },
+  { semana:2, data:"13/04/2026", gc:"858-2306",  nome:"Roseane Jaekel dos Santos Guevara",    mod:"Veículo", colab:"Ivana",   valor:90000.00,  pago:false },
+  { semana:2, data:"13/04/2026", gc:"1138-490",  nome:"Rafael Arpino Silva",                  mod:"Imóvel",  colab:"Jéssica", valor:101666.77, pago:false },
+  { semana:2, data:"14/04/2026", gc:"840-2312",  nome:"Lidiane Araújo Fernandes",             mod:"Veículo", colab:"Ivana",   valor:35732.67,  pago:false },
+  { semana:2, data:"14/04/2026", gc:"1151-697",  nome:"Jose Rafael Prestes Machado",          mod:"Imóvel",  colab:"Ivana",   valor:106368.60, pago:true  },
 ];
 
 // ── PROSPECÇÕES ─────────────────────────────────────────────────────
@@ -156,7 +164,7 @@ const PROSPECCOES = [];
 const brl = v => (+v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 
 function render() {
-  const todasSemanas = [0, ...Array.from({length: TOTAL_SEMANAS}, (_,i) => i+1)];
+  const todasSemanas = [0, ...Array.from({length: SEMANAS_VISIVEIS}, (_,i) => i+1)];
 
   const colabtotals = {};
   VENDAS.forEach(v => {
@@ -185,11 +193,20 @@ function render() {
       semanasHtml += `<div class="semana-empty">Não houve vendas nesta semana.</div>`;
     } else {
       semanasHtml += `
-      <table>
+      <table style="table-layout:fixed">
+        <colgroup>
+          <col style="width:90px">
+          <col style="width:110px">
+          <col>
+          <col style="width:92px">
+          <col style="width:92px">
+          <col style="width:130px">
+          <col style="width:120px">
+        </colgroup>
         <thead>
           <tr>
             <th>Data</th><th>Grupo-Cota</th><th>Consorciado</th>
-            <th>Modalidade</th><th>Colaborador</th><th>Valor</th><th>Pago e Assinado</th>
+            <th style="text-align:center">Modalidade</th><th>Colaborador</th><th>Valor</th><th style="text-align:center">Pago e Assinado</th>
           </tr>
         </thead>
         <tbody>
@@ -198,7 +215,7 @@ function render() {
             <td style="color:var(--t2)">${v.data}</td>
             <td style="font-weight:600">${v.gc}</td>
             <td>${v.nome}</td>
-            <td><span class="badge ${v.mod==='Imóvel'?'imovel':'veiculo'}">${v.mod}</span></td>
+            <td style="text-align:center"><span class="badge ${v.mod==='Imóvel'?'imovel':'veiculo'}">${v.mod}</span></td>
             <td>${v.colab}</td>
             <td style="color:var(--accent-bright);font-weight:600">${brl(v.valor)}</td>
             <td style="text-align:center">
@@ -283,7 +300,7 @@ function render() {
     </div>
   </div>`;
 
-  document.getElementById("conteudo").innerHTML = semanasHtml + resultadosHtml + prospHtml;
+  document.getElementById("conteudo").innerHTML = semanasHtml + resultadosHtml;
 }
 
 document.getElementById("periodo-display").textContent = PERIODO;
