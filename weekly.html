@@ -179,9 +179,56 @@
 
   /* ── Responsive ── */
   @media (max-width: 720px) {
-    .page-header      { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .pagamentos-grid  { grid-template-columns: 1fr; }
-    .donuts-grid      { grid-template-columns: 1fr; }
+    .wrap { padding: 1rem 0.75rem 3rem; }
+    .page-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .logo-area h1 { font-size: 22px; }
+    .periodo-badge { font-size: 11px; padding: 6px 12px; }
+    .pagamentos-grid { grid-template-columns: 1fr 1fr; }
+    .pagamentos-grid .pag-card:first-child { grid-column: 1 / -1; }
+    .donuts-grid { grid-template-columns: 1fr; }
+    .resultados-grid { grid-template-columns: 1fr; }
+    .pag-card .p-val { font-size: 18px; }
+    .donut-row { flex-direction: column; align-items: center; gap: 12px; }
+    .donut-leg { width: 100%; }
+    .sc-row { flex-wrap: wrap; }
+    .sc-val { margin-left: auto; }
+
+    /* Tabelas viram cards */
+    .semana-block colgroup, .desist-block colgroup { display: none; }
+    .semana-block thead, .desist-block thead { display: none; }
+    .semana-block table, .desist-block table { min-width: unset; }
+
+    .semana-block tbody tr,
+    .desist-block tbody tr {
+      display: flex; flex-direction: column;
+      background: var(--bg2) !important;
+      border: 1px solid var(--bd);
+      border-radius: 10px;
+      margin: 8px 12px; padding: 10px 12px; gap: 5px;
+    }
+    .semana-block tbody tr.row-desistente {
+      border-color: rgba(139,92,246,0.35);
+      background: rgba(139,92,246,0.04) !important;
+    }
+    .semana-block tbody td, .desist-block tbody td {
+      display: flex; justify-content: space-between; align-items: center;
+      border: none !important; padding: 3px 0; font-size: 12px;
+    }
+    .semana-block tbody td::before, .desist-block tbody td::before {
+      content: attr(data-label);
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--t3); font-family: var(--titles);
+      flex-shrink: 0; margin-right: 8px; white-space: nowrap;
+    }
+    .semana-block tbody td[data-label="Consorciado"],
+    .desist-block tbody td[data-label="Consorciado"] {
+      flex-direction: column; align-items: flex-start; gap: 3px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--bd) !important; margin-bottom: 3px;
+    }
+  }
+  @media (max-width: 480px) {
+    .pagamentos-grid { grid-template-columns: 1fr; }
+    .donut-card { padding: 0.9rem; }
   }
 </style>
 </head>
@@ -286,16 +333,16 @@ function render() {
         <tbody>
           ${vv.map((v,i) => `
           <tr class="${v.desistente ? 'row-desistente' : ''}" style="${i%2===1?'background:rgba(28,35,51,0.4)':''}">
-            <td style="color:var(--t2)">${v.data}</td>
-            <td style="font-weight:600">${v.gc}</td>
-            <td>
+            <td data-label="Data" style="color:var(--t2)">${v.data}</td>
+            <td data-label="Grupo-Cota" style="font-weight:600">${v.gc}</td>
+            <td data-label="Consorciado">
               ${v.nome}
               ${v.desistente ? `<span class="badge desistente" style="margin-left:6px;font-size:10px">Desistente</span>` : ''}
             </td>
-            <td style="text-align:center"><span class="badge ${v.mod==='Imóvel'?'imovel':'veiculo'}">${v.mod}</span></td>
-            <td>${v.colab}</td>
-            <td style="color:${v.desistente ? 'var(--t3)' : 'var(--accent-bright)'};font-weight:600">${brl(v.valor)}</td>
-            <td style="text-align:center">
+            <td data-label="Modalidade" style="text-align:center"><span class="badge ${v.mod==='Imóvel'?'imovel':'veiculo'}">${v.mod}</span></td>
+            <td data-label="Colaborador">${v.colab}</td>
+            <td data-label="Valor" style="color:${v.desistente ? 'var(--t3)' : 'var(--accent-bright)'};font-weight:600">${brl(v.valor)}</td>
+            <td data-label="Pago e Assinado" style="text-align:center">
               ${v.desistente
                 ? `<span class="badge desistente">↩ Desistente</span>`
                 : v.pago
@@ -506,13 +553,13 @@ function render() {
       <tbody>
         ${DESISTENTES.map((v,i) => `
         <tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}">
-          <td style="color:var(--t3)">${v.data}</td>
-          <td style="font-weight:600;color:var(--t3)">${v.gc}</td>
-          <td style="color:var(--t2)">${v.nome}</td>
-          <td style="text-align:center"><span class="badge ${v.mod==='Imóvel'?'imovel':'veiculo'}" style="opacity:.6">${v.mod}</span></td>
-          <td style="color:var(--t3)">${v.colab}</td>
-          <td style="color:var(--t3);text-decoration:line-through">${brl(v.valor)}</td>
-          <td style="text-align:center;color:var(--t3)">Sem. ${v.semana}</td>
+          <td data-label="Data" style="color:var(--t3)">${v.data}</td>
+          <td data-label="Grupo-Cota" style="font-weight:600;color:var(--t3)">${v.gc}</td>
+          <td data-label="Consorciado" style="color:var(--t2)">${v.nome}</td>
+          <td data-label="Modalidade" style="text-align:center"><span class="badge ${v.mod==='Imóvel'?'imovel':'veiculo'}" style="opacity:.6">${v.mod}</span></td>
+          <td data-label="Colaborador" style="color:var(--t3)">${v.colab}</td>
+          <td data-label="Valor" style="color:var(--t3);text-decoration:line-through">${brl(v.valor)}</td>
+          <td data-label="Semana" style="text-align:center;color:var(--t3)">Sem. ${v.semana}</td>
         </tr>`).join('')}
       </tbody>
     </table>`;

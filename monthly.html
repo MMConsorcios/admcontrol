@@ -93,7 +93,53 @@
   .desp-card .dc-l{font-size:10px;color:var(--t3);font-family:var(--titles);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
   .desp-card .dc-v{font-size:22px;font-weight:700;font-family:var(--titles)}
   .pending-badge{background:rgba(232,160,69,.12);color:var(--warn);border-radius:4px;padding:2px 8px;font-size:10px;font-family:var(--body);font-weight:700}
-  @media(max-width:720px){.colab-grid{grid-template-columns:1fr}.tabs{width:100%;flex-wrap:wrap}.page-header{flex-direction:column;align-items:flex-start;gap:10px}.fech-totals-bar{grid-template-columns:1fr 1fr}.desp-summary{grid-template-columns:1fr}}
+  /* ── Responsive ── */
+  @media(max-width:720px){
+    .wrap{padding:1rem 0.75rem 3rem}
+    .page-header{flex-direction:column;align-items:flex-start;gap:10px}
+    .logo-area h1{font-size:22px}
+    .periodo-badge{font-size:11px;padding:6px 12px}
+    .tabs{width:100%;flex-wrap:wrap;gap:3px}
+    .tab{flex:1 1 calc(50% - 3px);text-align:center;padding:8px 10px;font-size:12px}
+    .colab-grid{grid-template-columns:1fr}
+    .fech-totals-bar{grid-template-columns:1fr 1fr}
+    .desp-summary{grid-template-columns:1fr}
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .ft-card .ft-v{font-size:17px}
+    .total-bar .tv{font-size:22px}
+    .colab-card-header .ct{font-size:16px}
+    .subtabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:4px}
+    .subtab{white-space:nowrap;flex-shrink:0}
+    .cfg-box{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .cfg-box table{min-width:480px}
+    input[type=number]{width:52px}
+    /* Tabelas de fechamento e despesas: rolagem horizontal */
+    .subpanel table,.fech-section table,.table-wrap table{min-width:480px}
+    /* Detalhes das cotas dentro de cada card de colaborador: cards */
+    details thead{display:none}
+    details tbody tr{
+      display:flex;flex-direction:column;
+      background:var(--bg3) !important;
+      border-radius:8px;margin:6px 8px;padding:8px 10px;gap:3px;
+      border:1px solid var(--bd)
+    }
+    details tbody td{
+      display:flex;justify-content:space-between;align-items:center;
+      border:none !important;padding:2px 0;font-size:11px
+    }
+    details tbody td::before{
+      content:attr(data-label);
+      font-size:10px;font-weight:700;text-transform:uppercase;
+      letter-spacing:1px;color:var(--t3);font-family:var(--titles);
+      flex-shrink:0;margin-right:6px;white-space:nowrap
+    }
+  }
+  @media(max-width:480px){
+    .fech-totals-bar{grid-template-columns:1fr}
+    .tab{flex:1 1 100%}
+    .colab-card-header{flex-direction:column;gap:6px}
+    .colab-card-header .ct{font-size:20px;text-align:left}
+  }
   .panel{display:none}
   .panel.active{display:block}
 </style>
@@ -300,7 +346,7 @@ function renderComissoes(){
     const parcSums={};
     d.itens.forEach(it=>{parcSums[it.p]=(parcSums[it.p]||0)+it.total;});
     const parcsRow=Object.entries(parcSums).sort((a,b)=>a[0]-b[0]).map(([p,v])=>`<div class="parc-item"><span>P${p} </span><strong>${brl(v)}</strong></div>`).join("");
-    const detalhe=d.itens.map(it=>`<tr><td style="font-weight:600">${it.gc}</td><td>${it.nome}</td><td style="color:var(--accent-bright);text-align:center;font-family:var(--body)">Parcela ${it.p}</td><td style="color:var(--accent-bright);text-align:center">${it.pct}</td><td style="color:var(--t2)">${brl(it.credito)}</td><td style="color:var(--success);font-weight:600">${brl(it.total)}</td></tr>`).join("");
+    const detalhe=d.itens.map(it=>`<tr><td data-label="Grupo-Cota" style="font-weight:600">${it.gc}</td><td data-label="Consorciado">${it.nome}</td><td data-label="Parcela" style="color:var(--accent-bright);text-align:center;font-family:var(--body)">Parcela ${it.p}</td><td data-label="%" style="color:var(--accent-bright);text-align:center">${it.pct}</td><td data-label="Crédito" style="color:var(--t2)">${brl(it.credito)}</td><td data-label="Comissão" style="color:var(--success);font-weight:600">${brl(it.total)}</td></tr>`).join("");
     html+=`<div class="colab-card"><div class="colab-card-header"><div><div class="cn">${nome}</div><div class="cs">${d.info}</div><div class="cs" style="margin-top:4px">${d.itens.length} cota${d.itens.length!==1?'s':''}</div></div><div><div class="ct">${brl(totalFinal)}</div>${d.fixo>0?`<div class="cf">incl. ${brl(d.fixo)} ${d.fixoLabel||'fixo'}</div>`:''}</div></div>${parcsRow?`<div class="parcelas-row">${parcsRow}</div>`:''}${d.itens.length>0?`<details><summary>Ver detalhe das cotas (${d.itens.length})</summary><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Parcela</th><th>%</th><th>Cr\u00e9dito</th><th>Comiss\u00e3o</th></tr></thead><tbody>${detalhe}</tbody></table></details>`:'<div style="padding:12px 1.25rem;font-family:var(--body);font-size:12px;color:var(--t3)">Sem cotas neste per\u00edodo.</div>'}</div>`;
   });
   html+=`</div>`;
