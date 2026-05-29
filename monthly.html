@@ -4,253 +4,826 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mauro Motta Consórcios — Relatório de Comissões</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @font-face {
-    font-family: 'Codec Pro';
-    src: local('Codec Pro'), local('CodecPro');
+  :root {
+    --bg:    #07090E;
+    --bg2:   #0C0F18;
+    --bg3:   #131824;
+    --bg4:   #1A2130;
+    --bd:    #1E2840;
+    --bd2:   #28344E;
+    --accent:       #C03020;
+    --accent-bright:#D94830;
+    --accent-glow:  rgba(192,48,32,0.18);
+    --accent2:      #F0DDD8;
+    --gold:         #C4973A;
+    --gold-light:   #E0B84A;
+    --gold-glow:    rgba(196,151,58,0.15);
+    --warn:   #D0903A;
+    --danger: #E04040;
+    --success:#4AB882;
+    --t1: #F0ECE6;
+    --t2: #8A8078;
+    --t3: #40382E;
+    --titles: 'Cormorant Garamond', Georgia, serif;
+    --mono:   'IBM Plex Mono', monospace;
+    --body:   'Outfit', sans-serif;
+    --rad: 14px;
   }
 
-  :root {
-    --bg:#0B0F1A;--bg2:#111827;--bg3:#1C2333;--bd:#2A3347;
-    --accent:#bd341d;--accent-bright:#d9472e;--accent2:#F5E6E2;
-    --warn:#E8A045;--danger:#EF4444;--success:#4CAF82;
-    --t1:#F5F0EE;--t2:#B8ABA6;--t3:#5A4F4A;
-    --titles:'Inter',sans-serif;
-    --body:'Codec Pro','DM Sans','Nunito Sans',sans-serif;
-  }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--t1);font-family:var(--body);min-height:100vh;overflow-x:hidden}
-  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
-  .wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem}
-  .page-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--bd)}
-  .logo-area h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;color:var(--t1);font-family:var(--titles)}
-  .logo-area h1 span{color:var(--accent)}
-  .logo-area p{font-size:13px;color:var(--t2);margin-top:4px;font-family:var(--body)}
-  .periodo-badge{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:8px 16px;font-size:12px;font-family:var(--body);color:var(--accent-bright)}
-  .tabs{display:flex;gap:4px;margin-bottom:2rem;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:4px;width:fit-content}
-  .tab{padding:8px 20px;border:none;background:none;cursor:pointer;font-family:var(--titles);font-size:13px;font-weight:600;color:var(--t3);border-radius:7px;transition:all .15s}
-  .tab:hover{color:var(--t2)}
-  .tab.active{background:var(--accent);color:#fff}
-  .section{margin-bottom:1.5rem}
-  .section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--t3);font-family:var(--titles);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-  .section-title::after{content:'';flex:1;height:1px;background:var(--bd)}
-  .table-wrap{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
-  table{width:100%;border-collapse:collapse;font-size:12px}
-  thead tr{background:var(--bg3)}
-  th{padding:10px 12px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-family:var(--titles);border-bottom:1px solid var(--bd)}
-  td{padding:10px 12px;border-bottom:1px solid rgba(42,51,71,.5);color:var(--t1);font-family:var(--body);font-size:12px}
-  tbody tr:last-child td{border-bottom:none}
-  tbody tr:hover{background:rgba(189,52,29,0.04)}
-  .badge{display:inline-block;padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.5px;font-family:var(--body)}
-  .badge.ok{background:rgba(76,175,130,.12);color:var(--success)}
-  .badge.imovel{background:rgba(189,52,29,.15);color:#E8806E}
-  .badge.veiculo{background:rgba(245,230,226,.10);color:var(--accent2)}
-  .colab-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .colab-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
-  .colab-card-header{display:flex;justify-content:space-between;align-items:flex-start;padding:1rem 1.25rem;border-bottom:1px solid var(--bd)}
-  .colab-card-header .cn{font-size:15px;font-weight:700;font-family:var(--titles)}
-  .colab-card-header .cs{font-size:11px;color:var(--t3);margin-top:2px;font-family:var(--body)}
-  .colab-card-header .ct{font-size:20px;font-weight:700;color:var(--success);text-align:right;font-family:var(--titles)}
-  .colab-card-header .cf{font-size:10px;color:var(--t3);font-family:var(--body)}
-  .parcelas-row{display:flex;gap:6px;padding:10px 1.25rem;flex-wrap:wrap;border-bottom:1px solid var(--bd)}
-  .parc-item{background:var(--bg3);border-radius:5px;padding:4px 10px;font-size:11px;font-family:var(--body)}
-  .parc-item span{color:var(--t3)}
-  .parc-item strong{color:var(--t1)}
-  details{padding:0}
-  summary{padding:8px 1.25rem;font-size:11px;color:var(--accent-bright);cursor:pointer;font-family:var(--body);list-style:none}
-  summary::-webkit-details-marker{display:none}
-  summary::before{content:'▸ '}
-  details[open] summary::before{content:'▾ '}
-  details table td,details table th{font-size:11px;padding:7px 12px}
-  .total-bar{background:linear-gradient(135deg,#1a1210 0%,#0f0b0a 100%);border:1px solid var(--accent);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center}
-  .total-bar .tl{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-family:var(--titles);margin-bottom:6px}
-  .total-bar .tv{font-size:30px;font-weight:800;color:var(--accent-bright);font-family:var(--titles)}
-  .subtabs{display:flex;gap:4px;margin-bottom:1.25rem;flex-wrap:wrap}
-  .subtab{padding:6px 14px;border:1px solid var(--bd);background:var(--bg2);cursor:pointer;font-family:var(--body);font-size:11px;font-weight:500;color:var(--t3);border-radius:6px;transition:all .15s}
-  .subtab:hover{color:var(--t2);border-color:var(--accent)}
-  .subtab.active{background:var(--bg3);color:var(--accent2);border-color:var(--accent)}
-  .subpanel{display:none}
-  .subpanel.active{display:block}
-  .fech-totals-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
-  .ft-card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:1rem 1.25rem}
-  .ft-card .ft-l{font-size:10px;color:var(--t3);font-family:var(--titles);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-  .ft-card .ft-v{font-size:22px;font-weight:700;font-family:var(--titles)}
-  .fech-section{margin-top:2rem}
-  .fech-section-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-  .fech-section-header h3{font-size:13px;font-weight:700;font-family:var(--titles)}
-  .pill{font-size:10px;font-family:var(--body);padding:3px 10px;border-radius:20px;font-weight:700}
-  .pill.estorno{background:rgba(239,68,68,.12);color:var(--danger)}
-  .pill.contemplacao{background:rgba(232,160,69,.12);color:var(--warn)}
-  .cfg-box{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:1.25rem}
-  .cfg-box h4{font-size:13px;font-weight:700;margin-bottom:6px;font-family:var(--titles)}
-  .cfg-box p{font-size:12px;color:var(--t2);margin-bottom:1rem;font-family:var(--body)}
-  input[type=number]{width:60px;background:var(--bg3);border:1px solid var(--bd);border-radius:5px;color:var(--t1);padding:4px 8px;font-family:var(--body);font-size:12px}
-  input[type=number]:focus{outline:none;border-color:var(--accent)}
-  .desp-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
-  .desp-card{border-radius:10px;padding:1rem 1.25rem;border:1px solid var(--bd);background:var(--bg2);position:relative;overflow:hidden}
-  .desp-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--card-color,var(--accent))}
-  .desp-card .dc-l{font-size:10px;color:var(--t3);font-family:var(--titles);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-  .desp-card .dc-v{font-size:22px;font-weight:700;font-family:var(--titles)}
-  .pending-badge{background:rgba(232,160,69,.12);color:var(--warn);border-radius:4px;padding:2px 8px;font-size:10px;font-family:var(--body);font-weight:700}
-  /* ── Responsive ── */
-  @media(max-width:720px){
-    .wrap{padding:1rem 0.75rem 3rem}
-    .page-header{flex-direction:column;align-items:flex-start;gap:10px}
-    .logo-area h1{font-size:22px}
-    .periodo-badge{font-size:11px;padding:6px 12px}
-    .tabs{width:100%;flex-wrap:wrap;gap:3px}
-    .tab{flex:1 1 calc(50% - 3px);text-align:center;padding:8px 10px;font-size:12px}
-    .colab-grid{grid-template-columns:1fr}
-    .fech-totals-bar{grid-template-columns:1fr 1fr}
-    .desp-summary{grid-template-columns:1fr}
-    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .ft-card .ft-v{font-size:17px}
-    .total-bar .tv{font-size:22px}
-    .colab-card-header .ct{font-size:16px}
-    .subtabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:4px}
-    .subtab{white-space:nowrap;flex-shrink:0}
-    .cfg-box{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .cfg-box table{min-width:480px}
-    input[type=number]{width:52px}
-    /* Tabelas de fechamento e despesas: rolagem horizontal */
-    .subpanel table,.fech-section table,.table-wrap table{min-width:480px}
-    /* Detalhes das cotas dentro de cada card de colaborador: cards */
-    details thead{display:none}
-    details tbody tr{
-      display:flex;flex-direction:column;
+
+  ::selection{background:var(--accent-glow);color:var(--accent2)}
+
+  ::-webkit-scrollbar{width:6px;height:6px}
+  ::-webkit-scrollbar-track{background:var(--bg2)}
+  ::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+  body {
+    background: var(--bg);
+    color: var(--t1);
+    font-family: var(--body);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle radial glow behind header */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(192,48,32,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 5rem;
+  }
+
+  /* ═══ PAGE HEADER ═══ */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    position: relative;
+  }
+
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--bd) 40%, transparent 100%);
+  }
+
+  .logo-area {}
+
+  .logo-area h1 {
+    font-family: var(--titles);
+    font-size: 42px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    color: var(--t1);
+  }
+
+  .logo-area h1 em {
+    font-style: italic;
+    color: var(--accent-bright);
+  }
+
+  .logo-area h1 strong {
+    font-weight: 700;
+    color: var(--t1);
+  }
+
+  .logo-area .subtitle {
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--t3);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-area .subtitle::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .periodo-badge {
+    background: linear-gradient(135deg, var(--bg3), var(--bg4));
+    border: 1px solid var(--bd2);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  /* ═══ TABS ═══ */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2.5rem;
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: 12px;
+    padding: 4px;
+    width: fit-content;
+  }
+
+  .tab {
+    padding: 9px 22px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t3);
+    border-radius: 9px;
+    transition: all .2s ease;
+    letter-spacing: 0.2px;
+  }
+
+  .tab:hover { color: var(--t2); background: rgba(255,255,255,0.03); }
+
+  .tab.active {
+    background: linear-gradient(135deg, var(--accent) 0%, #A02818 100%);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(192,48,32,0.35);
+  }
+
+  /* ═══ PANELS ═══ */
+  .panel { display: none; }
+  .panel.active { display: block; animation: panelIn .25s ease; }
+
+  @keyframes panelIn {
+    from { opacity:0; transform: translateY(6px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ═══ SECTION TITLES ═══ */
+  .section { margin-bottom: 1.5rem; }
+
+  .section-title {
+    font-family: var(--body);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--t3);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--bd2), transparent);
+  }
+
+  /* ═══ TOTAL BAR ═══ */
+  .total-bar {
+    background: linear-gradient(135deg, #140A08 0%, #0C0A0B 100%);
+    border: 1px solid var(--accent);
+    border-radius: var(--rad);
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .total-bar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent-bright), var(--accent) 60%, transparent);
+  }
+
+  .total-bar::after {
+    content: '';
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .total-bar .tl {
+    font-family: var(--body);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--t3);
+    margin-bottom: 8px;
+  }
+
+  .total-bar .tv {
+    font-family: var(--mono);
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--accent-bright);
+    letter-spacing: -1px;
+  }
+
+  /* ═══ COLAB GRID ═══ */
+  .colab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .colab-card {
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: var(--rad);
+    overflow: hidden;
+    transition: border-color .2s, box-shadow .2s;
+    animation: cardIn .3s ease both;
+  }
+
+  .colab-card:nth-child(1) { animation-delay: .04s; }
+  .colab-card:nth-child(2) { animation-delay: .08s; }
+  .colab-card:nth-child(3) { animation-delay: .12s; }
+  .colab-card:nth-child(4) { animation-delay: .16s; }
+  .colab-card:nth-child(5) { animation-delay: .20s; }
+  .colab-card:nth-child(6) { animation-delay: .24s; }
+
+  @keyframes cardIn {
+    from { opacity:0; transform: translateY(12px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .colab-card:hover {
+    border-color: var(--bd2);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(196,151,58,0.06);
+  }
+
+  .colab-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--bd);
+    background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%);
+  }
+
+  .colab-card-header .cn {
+    font-family: var(--titles);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--t1);
+    letter-spacing: 0.1px;
+  }
+
+  .colab-card-header .cs {
+    font-family: var(--body);
+    font-size: 11px;
+    color: var(--t3);
+    margin-top: 3px;
+    font-weight: 500;
+  }
+
+  .colab-card-header .ct {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--success);
+    text-align: right;
+    letter-spacing: -0.5px;
+  }
+
+  .colab-card-header .cf {
+    font-family: var(--body);
+    font-size: 10px;
+    color: var(--t3);
+    text-align: right;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+
+  .parcelas-row {
+    display: flex;
+    gap: 6px;
+    padding: 10px 1.5rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--bd);
+    background: rgba(0,0,0,0.15);
+  }
+
+  .parc-item {
+    background: var(--bg3);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-family: var(--body);
+    font-weight: 500;
+  }
+
+  .parc-item span { color: var(--t3); }
+  .parc-item strong { color: var(--t1); font-family: var(--mono); }
+
+  details { padding: 0; }
+
+  summary {
+    padding: 9px 1.5rem;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-bright);
+    cursor: pointer;
+    font-family: var(--body);
+    list-style: none;
+    letter-spacing: 0.3px;
+    transition: color .15s;
+    border-top: 1px solid transparent;
+  }
+
+  summary:hover { color: var(--accent2); }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: '▸  '; }
+  details[open] summary::before { content: '▾  '; }
+
+  details table td, details table th { font-size: 11px; padding: 7px 12px; }
+
+  /* ═══ TABLES ═══ */
+  .table-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: var(--rad);
+    overflow: hidden;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+  thead tr { background: var(--bg3); }
+
+  th {
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--t3);
+    font-family: var(--body);
+    border-bottom: 1px solid var(--bd);
+  }
+
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(30,40,64,0.5);
+    color: var(--t1);
+    font-family: var(--body);
+    font-size: 12px;
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  tbody tr { transition: background .12s; }
+  tbody tr:hover { background: rgba(192,48,32,0.04); }
+
+  /* Mono for currency cells */
+  td[style*="color:var(--accent-bright)"],
+  td[style*="color:var(--success)"],
+  td[style*="color:var(--danger)"] {
+    font-family: var(--mono);
+  }
+
+  /* ═══ BADGES ═══ */
+  .badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-family: var(--body);
+  }
+
+  .badge.ok {
+    background: rgba(74,184,130,.1);
+    color: var(--success);
+    border: 1px solid rgba(74,184,130,.2);
+  }
+
+  .pending-badge {
+    background: rgba(208,144,58,.1);
+    color: var(--warn);
+    border-radius: 5px;
+    padding: 3px 9px;
+    font-size: 10px;
+    font-family: var(--body);
+    font-weight: 700;
+    border: 1px solid rgba(208,144,58,.2);
+  }
+
+  /* ═══ FECHAMENTO TOTALS ═══ */
+  .fech-totals-bar {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .ft-card {
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: var(--rad);
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+
+  .ft-card:hover { border-color: var(--bd2); }
+
+  .ft-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--ft-accent, var(--bd2));
+  }
+
+  .ft-card .ft-l {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--t3);
+    font-family: var(--body);
+    margin-bottom: 8px;
+  }
+
+  .ft-card .ft-v {
+    font-family: var(--mono);
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+
+  /* ═══ SUBTABS ═══ */
+  .subtabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .subtab {
+    padding: 7px 16px;
+    border: 1px solid var(--bd);
+    background: var(--bg2);
+    cursor: pointer;
+    font-family: var(--body);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t3);
+    border-radius: 8px;
+    transition: all .15s;
+    letter-spacing: 0.2px;
+  }
+
+  .subtab:hover { color: var(--t2); border-color: var(--bd2); }
+
+  .subtab.active {
+    background: var(--bg3);
+    color: var(--accent2);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(192,48,32,0.15);
+  }
+
+  .subpanel { display: none; }
+  .subpanel.active { display: block; }
+
+  /* ═══ FECHAMENTO SECTIONS ═══ */
+  .fech-section { margin-top: 2.5rem; }
+
+  .fech-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .fech-section-header h3 {
+    font-family: var(--titles);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+  }
+
+  .pill {
+    font-size: 10px;
+    font-family: var(--body);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .pill.estorno {
+    background: rgba(224,64,64,.1);
+    color: var(--danger);
+    border: 1px solid rgba(224,64,64,.2);
+  }
+
+  .pill.contemplacao {
+    background: rgba(208,144,58,.1);
+    color: var(--warn);
+    border: 1px solid rgba(208,144,58,.2);
+  }
+
+  /* ═══ CONFIG ═══ */
+  .cfg-box {
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: var(--rad);
+    padding: 1.75rem 2rem;
+  }
+
+  .cfg-box h4 {
+    font-family: var(--titles);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--t1);
+  }
+
+  .cfg-box p {
+    font-size: 12px;
+    color: var(--t2);
+    margin-bottom: 1.5rem;
+    font-family: var(--body);
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  input[type=number] {
+    width: 64px;
+    background: var(--bg3);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    color: var(--t1);
+    padding: 5px 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    transition: border-color .15s;
+  }
+
+  input[type=number]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+  }
+
+  /* ═══ DESPESAS ═══ */
+  .desp-summary {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 14px;
+    margin-bottom: 2rem;
+  }
+
+  .desp-card {
+    border-radius: var(--rad);
+    padding: 1.5rem;
+    border: 1px solid var(--bd);
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+
+  .desp-card:hover { border-color: var(--bd2); }
+
+  .desp-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-color, var(--accent));
+  }
+
+  .desp-card .dc-l {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--t3);
+    font-family: var(--body);
+    margin-bottom: 8px;
+  }
+
+  .desp-card .dc-v {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media(max-width:780px) {
+    .wrap { padding: 1.25rem 1rem 3.5rem; }
+    .page-header { flex-direction:column; align-items:flex-start; gap:14px; }
+    .logo-area h1 { font-size: 30px; }
+    .tabs { width:100%; flex-wrap:wrap; gap:3px; }
+    .tab { flex:1 1 calc(50% - 3px); text-align:center; padding:8px 10px; font-size:12px; }
+    .colab-grid { grid-template-columns:1fr; }
+    .fech-totals-bar { grid-template-columns:1fr 1fr; }
+    .desp-summary { grid-template-columns:1fr; }
+    .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .ft-card .ft-v { font-size: 17px; }
+    .total-bar .tv { font-size: 24px; }
+    .colab-card-header .ct { font-size:17px; }
+    .subtabs { overflow-x:auto; -webkit-overflow-scrolling:touch; flex-wrap:nowrap; padding-bottom:4px; }
+    .subtab { white-space:nowrap; flex-shrink:0; }
+    .cfg-box { overflow-x:auto; }
+    .cfg-box table { min-width:480px; }
+    input[type=number] { width:52px; }
+    .subpanel table,.fech-section table,.table-wrap table { min-width:480px; }
+    details thead { display:none; }
+    details tbody tr {
+      display:flex; flex-direction:column;
       background:var(--bg3) !important;
-      border-radius:8px;margin:6px 8px;padding:8px 10px;gap:3px;
-      border:1px solid var(--bd)
+      border-radius:8px; margin:6px 8px; padding:8px 10px; gap:3px;
+      border:1px solid var(--bd);
     }
-    details tbody td{
-      display:flex;justify-content:space-between;align-items:center;
-      border:none !important;padding:2px 0;font-size:11px
+    details tbody td {
+      display:flex; justify-content:space-between; align-items:center;
+      border:none !important; padding:2px 0; font-size:11px;
     }
-    details tbody td::before{
-      content:attr(data-label);
-      font-size:10px;font-weight:700;text-transform:uppercase;
-      letter-spacing:1px;color:var(--t3);font-family:var(--titles);
-      flex-shrink:0;margin-right:6px;white-space:nowrap
+    details tbody td::before {
+      content: attr(data-label);
+      font-size:10px; font-weight:700; text-transform:uppercase;
+      letter-spacing:1px; color:var(--t3); font-family:var(--body);
+      flex-shrink:0; margin-right:6px; white-space:nowrap;
     }
   }
-  @media(max-width:480px){
-    .fech-totals-bar{grid-template-columns:1fr}
-    .tab{flex:1 1 100%}
-    .colab-card-header{flex-direction:column;gap:6px}
-    .colab-card-header .ct{font-size:20px;text-align:left}
+  @media(max-width:480px) {
+    .fech-totals-bar { grid-template-columns:1fr; }
+    .tab { flex:1 1 100%; }
+    .colab-card-header { flex-direction:column; gap:6px; }
+    .colab-card-header .ct { font-size:20px; text-align:left; }
+    .logo-area h1 { font-size: 26px; }
   }
-  .panel{display:none}
-  .panel.active{display:block}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="page-header">
     <div class="logo-area">
-      <h1>Mauro Motta <span>Consórcios</span></h1>
-      <p>Relatório de Comissões · Maio 2026</p>
+      <h1><strong>Mauro Motta</strong> <em>Consórcios</em></h1>
+      <p class="subtitle">Relatório de Comissões · Maio 2026</p>
     </div>
     <div class="periodo-badge" id="periodo-display"></div>
   </div>
+
   <div class="tabs">
     <button class="tab active" onclick="showTab('comissoes',this)">Comissões da Equipe</button>
     <button class="tab" onclick="showTab('fechamento',this)">Fechamento</button>
     <button class="tab" onclick="showTab('despesas',this)">Despesas</button>
     <button class="tab" onclick="showTab('config',this)" style="display:none">Configurações</button>
   </div>
+
   <div id="tab-comissoes"  class="panel active"></div>
   <div id="tab-fechamento" class="panel"></div>
   <div id="tab-despesas"   class="panel"></div>
   <div id="tab-config"     class="panel"></div>
 </div>
 <script>
-const PERIODO="26/04/2026 \u2013 25/05/2026";
+const PERIODO="26/04/2026 – 25/05/2026";
 const BONIFICACAO=1440.00;
 const VALOR_NOTA=44327.59;
 const ADM=[
-  {p:1,gc:"840-1136",nome:"Matheus Fernando Machado Hinz Lindemann",colab:"R\u00e9gis",vc:52548.05,com:394.11},
-  {p:1,gc:"847-627",nome:"Adair Valerio de Souza",colab:"J\u00e9ssica",vc:104142.60,com:781.07},
-  {p:1,gc:"853-27",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:50000.00,com:750.00,pct:1.50},
+  {p:1,gc:"840-1136",nome:"Matheus Fernando Machado Hinz Lindemann",colab:"Régis",vc:52548.05,com:394.11},
+  {p:1,gc:"847-627",nome:"Adair Valerio de Souza",colab:"Jéssica",vc:104142.60,com:781.07},
+  {p:1,gc:"853-27",nome:"Eduardo Moreira Palma",colab:"Régis",vc:50000.00,com:750.00,pct:1.50},
   {p:1,gc:"858-379",nome:"Gilnei Pereira Alchimowich Anton",colab:"Ivana",vc:70000.00,com:525.00},
-  {p:1,gc:"1132-1937",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:112823.86,com:1011.89},
-  {p:1,gc:"1133-284",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:134918.33,com:846.18},
-  {p:1,gc:"1139-1412",nome:"Eduardo Moreira Palma",colab:"R\u00e9gis",vc:135555.69,com:1016.67},
+  {p:1,gc:"1132-1937",nome:"Eduardo Moreira Palma",colab:"Régis",vc:112823.86,com:1011.89},
+  {p:1,gc:"1133-284",nome:"Eduardo Moreira Palma",colab:"Régis",vc:134918.33,com:846.18},
+  {p:1,gc:"1139-1412",nome:"Eduardo Moreira Palma",colab:"Régis",vc:135555.69,com:1016.67},
   {p:1,gc:"1141-1204",nome:"Luis Eduardo Cardoso Lucena",colab:"Ivana",vc:112850.02,com:846.38},
-  {p:1,gc:"1141-1873",nome:"Hotel Franke LTDA",colab:"R\u00e9gis",vc:169275.03,com:1269.56},
-  {p:1,gc:"1177-515",nome:"Luana dos Santos Saraiva",colab:"J\u00e9ssica",vc:100000.00,com:750.00},
+  {p:1,gc:"1141-1873",nome:"Hotel Franke LTDA",colab:"Régis",vc:169275.03,com:1269.56},
+  {p:1,gc:"1177-515",nome:"Luana dos Santos Saraiva",colab:"Jéssica",vc:100000.00,com:750.00},
   {p:1,gc:"1177-835",nome:"Antonio Carlos Vilela Nunes",colab:"Lisandra",vc:150000.00,com:1125.00},
-  {p:1,gc:"1178-574",nome:"Tatiane Pereira Roliano",colab:"J\u00e9ssica",vc:200000.00,com:1500.00},
-  {p:2,gc:"839-1674",nome:"Dora Regina Ramires Hisse",colab:"J\u00e9ssica",vc:147134.54,com:367.84},
-  {p:2,gc:"839-402",nome:"Vagner Dias da Silva",colab:"Jaguar\u00e3o",vc:126115.32,com:315.29},
-  {p:2,gc:"840-508",nome:"Robison Souza Ortiz",colab:"R\u00e9gis",vc:47293.26,com:118.23},
-  {p:2,gc:"844-2960",nome:"Jean Feij\u00f3 da Cunha",colab:"R\u00e9gis",vc:41671.16,com:104.18},
-  {p:2,gc:"845-1535",nome:"Eric Alexandre Ribeira da Nobrega",colab:"J\u00e9ssica",vc:258393.50,com:645.98},
-  {p:2,gc:"856-2475",nome:"Renan Peters Rivaroli",colab:"M\u00e1rcio",vc:50000.00,com:125.00},
-  {p:2,gc:"1138-852",nome:"Tiele Librelotto Rubert",colab:"J\u00e9ssica",vc:101666.78,com:254.17},
-  {p:2,gc:"1171-1149",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:100000.00,com:250.00},
-  {p:2,gc:"1171-2098",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:100000.00,com:250.00},
-  {p:2,gc:"1171-2571",nome:"Helena Rodrigues dos Santos Iacks",colab:"R\u00e9gis",vc:100000.00,com:250.00},
-  {p:2,gc:"1174-1052",nome:"Patr\u00edcia Faria Os\u00f3rio",colab:"M\u00e1rcio",vc:100000.00,com:250.00},
-  {p:2,gc:"1174-1417",nome:"Crislaine de Campos R Proe\u00e7a",colab:"M\u00e1rcio",vc:100000.00,com:250.00},
-  {p:2,gc:"1174-1497",nome:"Pablo Peters Rivaroli",colab:"M\u00e1rcio",vc:100000.00,com:250.00},
-  {p:2,gc:"1174-1831",nome:"Pablo Peters Rivaroli",colab:"M\u00e1rcio",vc:100000.00,com:250.00},
-  {p:3,gc:"846-2125",nome:"Mateus de Souza Valad\u00e3o",colab:"Lisandra",vc:93021.66,com:232.55},
-  {p:3,gc:"855-1218",nome:"Daizi Spiering",colab:"J\u00e9ssica",vc:100000.00,com:250.00},
-  {p:3,gc:"855-2458",nome:"Claudia da Silva Muller",colab:"J\u00e9ssica",vc:100000.00,com:250.00},
-  {p:3,gc:"856-1791",nome:"Cassia Soares Rollo Silveira",colab:"R\u00e9gis",vc:90000.00,com:225.00},
-  {p:3,gc:"856-659",nome:"Anderson Weber Pereira",colab:"J\u00fanior",vc:45000.00,com:112.50},
-  {p:3,gc:"1126-1851",nome:"Louzada Assessoria cont\u00e1bil",colab:"R\u00e9gis",vc:152939.50,com:382.35},
-  {p:3,gc:"1134-921",nome:"Rodrigo Rickes Bartz",colab:"J\u00e9ssica",vc:281568.82,com:703.92},
-  {p:3,gc:"1137-926",nome:"Louzada Assessoria cont\u00e1bil",colab:"R\u00e9gis",vc:202928.90,com:507.32},
-  {p:3,gc:"1163-409",nome:"Claudia da Silva Muller",colab:"J\u00e9ssica",vc:100000.00,com:250.00},
+  {p:1,gc:"1178-574",nome:"Tatiane Pereira Roliano",colab:"Jéssica",vc:200000.00,com:1500.00},
+  {p:2,gc:"839-1674",nome:"Dora Regina Ramires Hisse",colab:"Jéssica",vc:147134.54,com:367.84},
+  {p:2,gc:"839-402",nome:"Vagner Dias da Silva",colab:"Jaguarão",vc:126115.32,com:315.29},
+  {p:2,gc:"840-508",nome:"Robison Souza Ortiz",colab:"Régis",vc:47293.26,com:118.23},
+  {p:2,gc:"844-2960",nome:"Jean Feijó da Cunha",colab:"Régis",vc:41671.16,com:104.18},
+  {p:2,gc:"845-1535",nome:"Eric Alexandre Ribeira da Nobrega",colab:"Jéssica",vc:258393.50,com:645.98},
+  {p:2,gc:"856-2475",nome:"Renan Peters Rivaroli",colab:"Márcio",vc:50000.00,com:125.00},
+  {p:2,gc:"1138-852",nome:"Tiele Librelotto Rubert",colab:"Jéssica",vc:101666.78,com:254.17},
+  {p:2,gc:"1171-1149",nome:"Helena Rodrigues dos Santos Iacks",colab:"Régis",vc:100000.00,com:250.00},
+  {p:2,gc:"1171-2098",nome:"Helena Rodrigues dos Santos Iacks",colab:"Régis",vc:100000.00,com:250.00},
+  {p:2,gc:"1171-2571",nome:"Helena Rodrigues dos Santos Iacks",colab:"Régis",vc:100000.00,com:250.00},
+  {p:2,gc:"1174-1052",nome:"Patrícia Faria Osório",colab:"Márcio",vc:100000.00,com:250.00},
+  {p:2,gc:"1174-1417",nome:"Crislaine de Campos R Proeça",colab:"Márcio",vc:100000.00,com:250.00},
+  {p:2,gc:"1174-1497",nome:"Pablo Peters Rivaroli",colab:"Márcio",vc:100000.00,com:250.00},
+  {p:2,gc:"1174-1831",nome:"Pablo Peters Rivaroli",colab:"Márcio",vc:100000.00,com:250.00},
+  {p:3,gc:"846-2125",nome:"Mateus de Souza Valadão",colab:"Lisandra",vc:93021.66,com:232.55},
+  {p:3,gc:"855-1218",nome:"Daizi Spiering",colab:"Jéssica",vc:100000.00,com:250.00},
+  {p:3,gc:"855-2458",nome:"Claudia da Silva Muller",colab:"Jéssica",vc:100000.00,com:250.00},
+  {p:3,gc:"856-1791",nome:"Cassia Soares Rollo Silveira",colab:"Régis",vc:90000.00,com:225.00},
+  {p:3,gc:"856-659",nome:"Anderson Weber Pereira",colab:"Júnior",vc:45000.00,com:112.50},
+  {p:3,gc:"1126-1851",nome:"Louzada Assessoria contábil",colab:"Régis",vc:152939.50,com:382.35},
+  {p:3,gc:"1134-921",nome:"Rodrigo Rickes Bartz",colab:"Jéssica",vc:281568.82,com:703.92},
+  {p:3,gc:"1137-926",nome:"Louzada Assessoria contábil",colab:"Régis",vc:202928.90,com:507.32},
+  {p:3,gc:"1163-409",nome:"Claudia da Silva Muller",colab:"Jéssica",vc:100000.00,com:250.00},
   {p:3,gc:"1168-2915",nome:"Jaqueline Silva da Silva",colab:"Lisandra",vc:300000.00,com:750.00},
-  {p:3,gc:"1171-1813",nome:"Jo\u00e3o Pedro Galarraga Jardim",colab:"R\u00e9gis",vc:100000.00,com:250.00},
-  {p:3,gc:"1174-2714",nome:"Morgana da Cunha Larrosa",colab:"Jaguar\u00e3o",vc:100000.00,com:250.00},
-  {p:4,gc:"824-1195",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:60168.50,com:150.42},
-  {p:4,gc:"825-1194",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:49228.16,com:123.07},
-  {p:4,gc:"828-1196",nome:"SM Artefatos de Concreto LTDA",colab:"R\u00e9gis",vc:98299.04,com:245.75},
-  {p:4,gc:"856-1397",nome:"Gustavo da Rocha Saraiva",colab:"J\u00fanior",vc:50000.00,com:125.00},
-  {p:4,gc:"1143-2070",nome:"Marcio Jose Silva Siqueira",colab:"J\u00e9ssica",vc:341463.46,com:853.66},
-  {p:4,gc:"1146-2071",nome:"Marcio Jose Silva Siqueira",colab:"J\u00e9ssica",vc:214422.60,com:536.06},
-  {p:4,gc:"1169-1784",nome:"Augusto Duarte Duarte",colab:"R\u00e9gis",vc:100000.00,com:250.00},
-  {p:4,gc:"1170-1623",nome:"Camila da Costa",colab:"M\u00e1rcio",vc:200000.00,com:500.00},
-  {p:4,gc:"1170-1624",nome:"Camila da Costa",colab:"M\u00e1rcio",vc:200000.00,com:500.00},
-  {p:4,gc:"1171-1236",nome:"Cristiano Victoria Fagundes",colab:"J\u00e9ssica",vc:100000.00,com:250.00},
-  {p:4,gc:"1171-524",nome:"Yan Rodrigues Amaro Galarce",colab:"J\u00e9ssica",vc:150000.00,com:375.00},
-  {p:5,gc:"840-2894",nome:"Dioni de Souza Sandi",colab:"M\u00e1rcio",vc:44665.84,com:223.33},
-  {p:5,gc:"1104-372",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:119251.32,com:596.26},
-  {p:5,gc:"1107-1763",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:118731.74,com:593.66},
-  {p:5,gc:"1109-1765",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:112890.30,com:564.45},
-  {p:5,gc:"1116-1094",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:116466.94,com:582.33},
-  {p:5,gc:"1116-948",nome:"Diego Joanol de Joanol",colab:"R\u00e9gis",vc:104820.24,com:524.10},
-  {p:5,gc:"1119-841",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:116649.18,com:583.25},
-  {p:5,gc:"1138-1764",nome:"Valesca Rodrigues Fernandes",colab:"M\u00e1rcio",vc:112963.08,com:564.82},
-  {p:5,gc:"1168-1371",nome:"Enio Ramos Fernandes",colab:"M\u00e1rcio",vc:300000.00,com:1500.00},
-  {p:5,gc:"1169-1037",nome:"Elton Henrique Bernardi Vasconcelos",colab:"M\u00e1rcio",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-1076",nome:"Raul Luiz Gon\u00e7alves Garr\u00e9",colab:"R\u00e9gis",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-1291",nome:"NAVE",colab:"R\u00e9gis",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-1342",nome:"Antonella Romina Savia Vidales",colab:"Jaguar\u00e3o",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-1432",nome:"Charlene de Oliveira Alves",colab:"R\u00e9gis",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-1861",nome:"Tiago Pereira de Avila Cardozo",colab:"J\u00e9ssica",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-2216",nome:"Giane Soares Fagundes",colab:"J\u00e9ssica",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-2427",nome:"NAVE",colab:"R\u00e9gis",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-2582",nome:"Eduardo Ortiz de Avila",colab:"R\u00e9gis",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-2703",nome:"NAVE",colab:"R\u00e9gis",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-761",nome:"Eduardo Ortiz de Avila",colab:"R\u00e9gis",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-819",nome:"NAVE",colab:"R\u00e9gis",vc:100000.00,com:500.00},
-  {p:5,gc:"1169-847",nome:"Cristian Ribeiro Soares",colab:"R\u00e9gis",vc:100000.00,com:500.00},
+  {p:3,gc:"1171-1813",nome:"João Pedro Galarraga Jardim",colab:"Régis",vc:100000.00,com:250.00},
+  {p:3,gc:"1174-2714",nome:"Morgana da Cunha Larrosa",colab:"Jaguarão",vc:100000.00,com:250.00},
+  {p:4,gc:"824-1195",nome:"SM Artefatos de Concreto LTDA",colab:"Régis",vc:60168.50,com:150.42},
+  {p:4,gc:"825-1194",nome:"SM Artefatos de Concreto LTDA",colab:"Régis",vc:49228.16,com:123.07},
+  {p:4,gc:"828-1196",nome:"SM Artefatos de Concreto LTDA",colab:"Régis",vc:98299.04,com:245.75},
+  {p:4,gc:"856-1397",nome:"Gustavo da Rocha Saraiva",colab:"Júnior",vc:50000.00,com:125.00},
+  {p:4,gc:"1143-2070",nome:"Marcio Jose Silva Siqueira",colab:"Jéssica",vc:341463.46,com:853.66},
+  {p:4,gc:"1146-2071",nome:"Marcio Jose Silva Siqueira",colab:"Jéssica",vc:214422.60,com:536.06},
+  {p:4,gc:"1169-1784",nome:"Augusto Duarte Duarte",colab:"Régis",vc:100000.00,com:250.00},
+  {p:4,gc:"1170-1623",nome:"Camila da Costa",colab:"Márcio",vc:200000.00,com:500.00},
+  {p:4,gc:"1170-1624",nome:"Camila da Costa",colab:"Márcio",vc:200000.00,com:500.00},
+  {p:4,gc:"1171-1236",nome:"Cristiano Victoria Fagundes",colab:"Jéssica",vc:100000.00,com:250.00},
+  {p:4,gc:"1171-524",nome:"Yan Rodrigues Amaro Galarce",colab:"Jéssica",vc:150000.00,com:375.00},
+  {p:5,gc:"840-2894",nome:"Dioni de Souza Sandi",colab:"Márcio",vc:44665.84,com:223.33},
+  {p:5,gc:"1104-372",nome:"Valesca Rodrigues Fernandes",colab:"Márcio",vc:119251.32,com:596.26},
+  {p:5,gc:"1107-1763",nome:"Valesca Rodrigues Fernandes",colab:"Márcio",vc:118731.74,com:593.66},
+  {p:5,gc:"1109-1765",nome:"Valesca Rodrigues Fernandes",colab:"Márcio",vc:112890.30,com:564.45},
+  {p:5,gc:"1116-1094",nome:"Valesca Rodrigues Fernandes",colab:"Márcio",vc:116466.94,com:582.33},
+  {p:5,gc:"1116-948",nome:"Diego Joanol de Joanol",colab:"Régis",vc:104820.24,com:524.10},
+  {p:5,gc:"1119-841",nome:"Valesca Rodrigues Fernandes",colab:"Márcio",vc:116649.18,com:583.25},
+  {p:5,gc:"1138-1764",nome:"Valesca Rodrigues Fernandes",colab:"Márcio",vc:112963.08,com:564.82},
+  {p:5,gc:"1168-1371",nome:"Enio Ramos Fernandes",colab:"Márcio",vc:300000.00,com:1500.00},
+  {p:5,gc:"1169-1037",nome:"Elton Henrique Bernardi Vasconcelos",colab:"Márcio",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-1076",nome:"Raul Luiz Gonçalves Garré",colab:"Régis",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-1291",nome:"NAVE",colab:"Régis",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-1342",nome:"Antonella Romina Savia Vidales",colab:"Jaguarão",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-1432",nome:"Charlene de Oliveira Alves",colab:"Régis",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-1861",nome:"Tiago Pereira de Avila Cardozo",colab:"Jéssica",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-2216",nome:"Giane Soares Fagundes",colab:"Jéssica",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-2427",nome:"NAVE",colab:"Régis",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-2582",nome:"Eduardo Ortiz de Avila",colab:"Régis",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-2703",nome:"NAVE",colab:"Régis",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-761",nome:"Eduardo Ortiz de Avila",colab:"Régis",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-819",nome:"NAVE",colab:"Régis",vc:100000.00,com:500.00},
+  {p:5,gc:"1169-847",nome:"Cristian Ribeiro Soares",colab:"Régis",vc:100000.00,com:500.00},
 ];
 const ESTORNOS=[
-  {gc:"831-2082",nome:"Maur\u00edcio Ribeiro Martinez",colab:"R\u00e9gis",valor:57295.92,pct:0.75,comissao:429.72},
-  {gc:"851-2109",nome:"Keider Rodrigues Barbosa",colab:"R\u00e9gis",valor:90000.00,pct:0.75,comissao:675.00},
-  {gc:"855-1469",nome:"Prestador de Servi\u00e7o Saraiva",colab:"J\u00fanior",valor:120000.00,pct:0.75,comissao:900.00},
-  {gc:"1164-2283",nome:"Camila Thurow Neitzke",colab:"R\u00e9gis",valor:209887.84,pct:0.75,comissao:1574.16},
-  {gc:"1164-2283",nome:"Felipe da Silva Delgado",colab:"R\u00e9gis",valor:500000.00,pct:0.75,comissao:3750.00},
+  {gc:"831-2082",nome:"Maurício Ribeiro Martinez",colab:"Régis",valor:57295.92,pct:0.75,comissao:429.72},
+  {gc:"851-2109",nome:"Keider Rodrigues Barbosa",colab:"Régis",valor:90000.00,pct:0.75,comissao:675.00},
+  {gc:"855-1469",nome:"Prestador de Serviço Saraiva",colab:"Júnior",valor:120000.00,pct:0.75,comissao:900.00},
+  {gc:"1164-2283",nome:"Camila Thurow Neitzke",colab:"Régis",valor:209887.84,pct:0.75,comissao:1574.16},
+  {gc:"1164-2283",nome:"Felipe da Silva Delgado",colab:"Régis",valor:500000.00,pct:0.75,comissao:3750.00},
 ];
 const CONTEMPLACOES=[];
 const COMISSOES_IND={
-  "J\u00e9ssica":{info:"R$ 1.500,00 fixo + 0,3% / 0,2% / 0,1%",fixo:1500,itens:[
+  "Jéssica":{info:"R$ 1.500,00 fixo + 0,3% / 0,2% / 0,1%",fixo:1500,itens:[
     {p:1,gc:"847-627",nome:"Adair Valerio de Souza",credito:104142.60,pct:"0,3%",total:312.43},
     {p:1,gc:"1177-515",nome:"Luana dos Santos Saraiva",credito:100000.00,pct:"0,3%",total:300.00},
     {p:1,gc:"1178-574",nome:"Tatiane Pereira Roliano",credito:200000.00,pct:"0,3%",total:600.00},
@@ -266,19 +839,19 @@ const COMISSOES_IND={
     {p:3,gc:"855-1218",nome:"Daizi Spiering",credito:100000.00,pct:"0,1%",total:100.00},
     {p:4,gc:"10724-165",nome:"Daiane Spinoza Cunha",credito:78393.00,pct:"0,3%",total:235.18},
   ]},
-  "M\u00e1rcio":{info:"0,35% / 0,2% / 0,2%",fixo:0,itens:[
-    {p:2,gc:"1174-1052",nome:"Patr\u00edcia Faria Os\u00f3rio",credito:100000.00,pct:"0,2%",total:200.00},
-    {p:2,gc:"1174-1417",nome:"Crislaine de Campos R Proe\u00e7a",credito:100000.00,pct:"0,2%",total:200.00},
+  "Márcio":{info:"0,35% / 0,2% / 0,2%",fixo:0,itens:[
+    {p:2,gc:"1174-1052",nome:"Patrícia Faria Osório",credito:100000.00,pct:"0,2%",total:200.00},
+    {p:2,gc:"1174-1417",nome:"Crislaine de Campos R Proeça",credito:100000.00,pct:"0,2%",total:200.00},
     {p:2,gc:"1174-1497",nome:"Pablo Peters Rivaroli",credito:100000.00,pct:"0,2%",total:200.00},
     {p:2,gc:"1174-1831",nome:"Pablo Peters Rivaroli",credito:100000.00,pct:"0,2%",total:200.00},
     {p:2,gc:"856-2475",nome:"Renan Peters Rivaroli",credito:50000.00,pct:"0,2%",total:100.00},
   ]},
   "Lisandra":{info:"0,35% / 0,2% / 0,2% + 0,1% ref. vendas Ivana",fixo:182.85,fixoLabel:"ref. vendas Ivana",itens:[
     {p:1,gc:"1177-835",nome:"Antonio Carlos Vilela Nunes",credito:150000.00,pct:"0,35%",total:525.00},
-    {p:3,gc:"846-2125",nome:"Mateus de Souza Valad\u00e3o",credito:93021.66,pct:"0,2%",total:186.04},
+    {p:3,gc:"846-2125",nome:"Mateus de Souza Valadão",credito:93021.66,pct:"0,2%",total:186.04},
     {p:3,gc:"1168-2915",nome:"Jaqueline Silva da Silva",credito:300000.00,pct:"0,2%",total:600.00},
   ]},
-  "Laura (Jaguar\u00e3o)":{info:"50% do valor total da comiss\u00e3o",fixo:0,itens:[
+  "Laura (Jaguarão)":{info:"50% do valor total da comissão",fixo:0,itens:[
     {p:2,gc:"839-402",nome:"Vagner Dias da Silva",credito:126115.32,pct:"0,25%",total:157.64},
     {p:3,gc:"1174-2714",nome:"Morgana da Cunha Larrosa",credito:100000.00,pct:"0,25%",total:125.00},
     {p:5,gc:"1169-1342",nome:"Antonella Romina Savia Vidales",credito:100000.00,pct:"0,5%",total:250.00},
@@ -291,7 +864,7 @@ const COMISSOES_IND={
 const DESPESAS=[
   {nome:"Imposto",valor:5593.00,drive:false},
   {nome:"Junior",valor:50.00,drive:true},
-  {nome:"Jaguar\u00e3o",valor:1606.15,drive:true},
+  {nome:"Jaguarão",valor:1606.15,drive:true},
   {nome:"Sinduscon",valor:148.00,drive:true},
   {nome:"Pro labore",valor:713.24,drive:true},
   {nome:"Aluguel",valor:1000.00,drive:true},
@@ -301,35 +874,35 @@ const DESPESAS=[
   {nome:"Acican",valor:57.14,drive:true},
   {nome:"Bruno",valor:2875.27,drive:true},
   {nome:"Lisandra",valor:1538.84,drive:true},
-  {nome:"M\u00e1rcio",valor:1000.00,drive:true},
-  {nome:"J\u00e9ssica",valor:5121.75,drive:true},
+  {nome:"Márcio",valor:1000.00,drive:true},
+  {nome:"Jéssica",valor:5121.75,drive:true},
   {nome:"RDStation",valor:264.00,drive:true},
   {nome:"Venturis",valor:1500.00,drive:true},
   {nome:"Gasolina",valor:550.00,drive:true},
-  {nome:"Refei\u00e7\u00e3o R\u00e9gis",valor:77.80,drive:true},
+  {nome:"Refeição Régis",valor:77.80,drive:true},
   {nome:"Aluguel Vanguarda",valor:358.40,drive:true},
   {nome:"Evento Vanguarda",valor:1340.00,drive:true},
-  {nome:"D\u00e9bora",valor:90.00,drive:true},
-  {nome:"Cart\u00f5es de visita",valor:48.00,drive:true},
+  {nome:"Débora",valor:90.00,drive:true},
+  {nome:"Cartões de visita",valor:48.00,drive:true},
   {nome:"Cabo HDMI",valor:18.40,drive:true},
   {nome:"Jaquetas",valor:268.00,drive:true},
   {nome:"Evento Arroio Grande",valor:1020.00,drive:true},
   {nome:"Crachás",valor:225.00,drive:true},
-  {nome:"P\u00e1scoa",valor:180.00,drive:true},
+  {nome:"Páscoa",valor:180.00,drive:true},
   {nome:"Patrocínio Rústica",valor:150.00,drive:true},
   {nome:"Boleto Cliente (TieleLibrelotto)",valor:347.39,drive:true},
   {nome:"Denise",valor:1125.00,drive:true},
-  {nome:"Torneio Parque T\u00eanis",valor:2000.00,drive:false},
+  {nome:"Torneio Parque Tênis",valor:2000.00,drive:false},
 ];
 let PERC={
-  "J\u00e9ssica":{p1:0.30,p2:0.20,p3:0.10,p4:0.10,p5:0.10,fixo:1500},
+  "Jéssica":{p1:0.30,p2:0.20,p3:0.10,p4:0.10,p5:0.10,fixo:1500},
   "Ivana":{p1:0.30,p2:0.10,p3:0.10,p4:0.10,p5:0.20,fixo:0},
   "Lisandra":{p1:0.35,p2:0.20,p3:0.20,p4:0.20,p5:0.20,fixo:0},
-  "M\u00e1rcio":{p1:0.35,p2:0.20,p3:0.20,p4:0.20,p5:0.20,fixo:0},
-  "Jaguar\u00e3o":{especial:true,fixo:0},
-  "D\u00e9bora":{p1:0.20,p2:0.20,p3:0.10,p4:0.10,p5:0.10,fixo:0},
+  "Márcio":{p1:0.35,p2:0.20,p3:0.20,p4:0.20,p5:0.20,fixo:0},
+  "Jaguarão":{especial:true,fixo:0},
+  "Débora":{p1:0.20,p2:0.20,p3:0.10,p4:0.10,p5:0.10,fixo:0},
   "Denise":{p1:0.75,p2:0.25,p3:0.25,p4:0.25,p5:0.25,fixo:0},
-  "J\u00fanior":{p1:0.75,p2:0.25,p3:0.25,p4:0.25,p5:0.25,fixo:0},
+  "Júnior":{p1:0.75,p2:0.25,p3:0.25,p4:0.25,p5:0.25,fixo:0},
 };
 const brl=v=>(+v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 function showTab(id,btn){
@@ -340,14 +913,14 @@ function showTab(id,btn){
 }
 function renderComissoes(){
   const totalEquipe=Object.values(COMISSOES_IND).reduce((a,c)=>a+c.itens.reduce((s,i)=>s+i.total,0)+c.fixo,0);
-  let html=`<div class="total-bar"><div><div class="tl">Total a pagar \u00e0 equipe este m\u00eas</div><div class="tv">${brl(totalEquipe)}</div></div></div><div class="colab-grid">`;
+  let html=`<div class="total-bar"><div><div class="tl">Total a pagar à equipe este mês</div><div class="tv">${brl(totalEquipe)}</div></div></div><div class="colab-grid">`;
   Object.entries(COMISSOES_IND).forEach(([nome,d])=>{
     const totalFinal=d.itens.reduce((a,i)=>a+i.total,0)+d.fixo;
     const parcSums={};
     d.itens.forEach(it=>{parcSums[it.p]=(parcSums[it.p]||0)+it.total;});
     const parcsRow=Object.entries(parcSums).sort((a,b)=>a[0]-b[0]).map(([p,v])=>`<div class="parc-item"><span>P${p} </span><strong>${brl(v)}</strong></div>`).join("");
-    const detalhe=d.itens.map(it=>`<tr><td data-label="Grupo-Cota" style="font-weight:600">${it.gc}</td><td data-label="Consorciado">${it.nome}</td><td data-label="Parcela" style="color:var(--accent-bright);text-align:center;font-family:var(--body)">Parcela ${it.p}</td><td data-label="%" style="color:var(--accent-bright);text-align:center">${it.pct}</td><td data-label="Crédito" style="color:var(--t2)">${brl(it.credito)}</td><td data-label="Comissão" style="color:var(--success);font-weight:600">${brl(it.total)}</td></tr>`).join("");
-    html+=`<div class="colab-card"><div class="colab-card-header"><div><div class="cn">${nome}</div><div class="cs">${d.info}</div><div class="cs" style="margin-top:4px">${d.itens.length} cota${d.itens.length!==1?'s':''}</div></div><div><div class="ct">${brl(totalFinal)}</div>${d.fixo>0?`<div class="cf">incl. ${brl(d.fixo)} ${d.fixoLabel||'fixo'}</div>`:''}</div></div>${parcsRow?`<div class="parcelas-row">${parcsRow}</div>`:''}${d.itens.length>0?`<details><summary>Ver detalhe das cotas (${d.itens.length})</summary><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Parcela</th><th>%</th><th>Cr\u00e9dito</th><th>Comiss\u00e3o</th></tr></thead><tbody>${detalhe}</tbody></table></details>`:'<div style="padding:12px 1.25rem;font-family:var(--body);font-size:12px;color:var(--t3)">Sem cotas neste per\u00edodo.</div>'}</div>`;
+    const detalhe=d.itens.map(it=>`<tr><td data-label="Grupo-Cota" style="font-weight:600">${it.gc}</td><td data-label="Consorciado">${it.nome}</td><td data-label="Parcela" style="color:var(--accent-bright);text-align:center;font-family:var(--mono)">Parcela ${it.p}</td><td data-label="%" style="color:var(--accent-bright);text-align:center">${it.pct}</td><td data-label="Crédito" style="color:var(--t2);font-family:var(--mono)">${brl(it.credito)}</td><td data-label="Comissão" style="color:var(--success);font-weight:600;font-family:var(--mono)">${brl(it.total)}</td></tr>`).join("");
+    html+=`<div class="colab-card"><div class="colab-card-header"><div><div class="cn">${nome}</div><div class="cs">${d.info}</div><div class="cs" style="margin-top:4px">${d.itens.length} cota${d.itens.length!==1?'s':''}</div></div><div><div class="ct">${brl(totalFinal)}</div>${d.fixo>0?`<div class="cf">incl. ${brl(d.fixo)} ${d.fixoLabel||'fixo'}</div>`:''}</div></div>${parcsRow?`<div class="parcelas-row">${parcsRow}</div>`:''}${d.itens.length>0?`<details><summary>Ver detalhe das cotas (${d.itens.length})</summary><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Parcela</th><th>%</th><th>Crédito</th><th>Comissão</th></tr></thead><tbody>${detalhe}</tbody></table></details>`:'<div style="padding:12px 1.5rem;font-family:var(--body);font-size:12px;color:var(--t3)">Sem cotas neste período.</div>'}</div>`;
   });
   html+=`</div>`;
   document.getElementById("tab-comissoes").innerHTML=html;
@@ -364,33 +937,33 @@ function renderFechamento(subTab){
   const totalEstornos=ESTORNOS.reduce((a,e)=>a+e.comissao,0);
   const totalLiquido=totalComissoes-totalEstornos+BONIFICACAO;
   let html=`<div class="fech-totals-bar">
-    <div class="ft-card"><div class="ft-l">Comiss\u00f5es brutas</div><div class="ft-v" style="color:var(--accent-bright)">${brl(totalComissoes)}</div><div style="font-size:11px;color:var(--t3);font-family:var(--body);margin-top:4px">${ADM.length} cotas</div></div>
-    <div class="ft-card"><div class="ft-l">Estornos</div><div class="ft-v" style="color:var(--danger)">-${brl(totalEstornos)}</div><div style="font-size:11px;color:var(--t3);font-family:var(--body);margin-top:4px">${ESTORNOS.length} cotas</div></div>
-    <div class="ft-card"><div class="ft-l">Bonifica\u00e7\u00e3o (corretora)</div><div class="ft-v" style="color:var(--accent2)">${brl(BONIFICACAO)}</div><div style="font-size:11px;color:var(--t3);font-family:var(--body);margin-top:4px">n\u00e3o distribu\u00edda \u00e0 equipe</div></div>
-    <div class="ft-card" style="border-color:var(--success)"><div class="ft-l">Comiss\u00e3o l\u00edquida final</div><div class="ft-v" style="color:var(--success)">${brl(totalLiquido)}</div><div style="font-size:11px;color:var(--t3);font-family:var(--body);margin-top:4px">comiss\u00f5es + bonif. \u2212 estornos</div></div>
+    <div class="ft-card" style="--ft-accent:var(--accent-bright)"><div class="ft-l">Comissões brutas</div><div class="ft-v" style="color:var(--accent-bright)">${brl(totalComissoes)}</div><div style="font-size:11px;color:var(--t3);font-family:var(--body);margin-top:6px">${ADM.length} cotas</div></div>
+    <div class="ft-card" style="--ft-accent:var(--danger)"><div class="ft-l">Estornos</div><div class="ft-v" style="color:var(--danger)">-${brl(totalEstornos)}</div><div style="font-size:11px;color:var(--t3);font-family:var(--body);margin-top:6px">${ESTORNOS.length} cotas</div></div>
+    <div class="ft-card" style="--ft-accent:var(--gold)"><div class="ft-l">Bonificação (corretora)</div><div class="ft-v" style="color:var(--gold)">${brl(BONIFICACAO)}</div><div style="font-size:11px;color:var(--t3);font-family:var(--body);margin-top:6px">não distribuída à equipe</div></div>
+    <div class="ft-card" style="border-color:var(--success);--ft-accent:var(--success)"><div class="ft-l">Comissão líquida final</div><div class="ft-v" style="color:var(--success)">${brl(totalLiquido)}</div><div style="font-size:11px;color:var(--t3);font-family:var(--body);margin-top:6px">comissões + bonif. − estornos</div></div>
   </div>`;
   html+=`<div class="subtabs">`;
-  pKeys.forEach(k=>{const n=k[1];html+=`<button class="subtab ${subTab===k?'active':''}" onclick="renderFechamento('${k}')">Parcela ${n} \u00b7 ${brl(parcelas[k].liquido)}</button>`;});
+  pKeys.forEach(k=>{const n=k[1];html+=`<button class="subtab ${subTab===k?'active':''}" onclick="renderFechamento('${k}')">Parcela ${n} · ${brl(parcelas[k].liquido)}</button>`;});
   html+=`</div>`;
   const p=parcelas[subTab];const pNum=subTab[1];
-  html+=`<div class="subpanel active"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="section-title" style="margin:0;flex:1">Parcela ${pNum} \u2014 ${p.itens.length} cotas</div><div style="font-family:var(--titles);font-size:13px;color:var(--accent-bright);font-weight:700">${brl(p.liquido)}</div></div><div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor do Cr\u00e9dito</th><th>% ADM</th><th>Comiss\u00e3o Bruta</th></tr></thead><tbody>${p.itens.map((it,i)=>`<tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}"><td style="font-weight:600">${it.gc}</td><td>${it.nome}</td><td>${it.colab}</td><td>${brl(it.vc)}</td><td style="color:var(--t3)">${it._rate}%</td><td style="color:var(--accent-bright);font-weight:600">${brl(it._com)}</td></tr>`).join("")}</tbody></table></div></div>`;
-  html+=`<div class="fech-section"><div class="fech-section-header"><h3 style="color:var(--danger)">Estornos do Per\u00edodo</h3><span class="pill estorno">${ESTORNOS.length} cotas \u00b7 -${brl(totalEstornos)}</span></div>${ESTORNOS.length>0?`<div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor Cr\u00e9dito</th><th>% ADM</th><th>Estorno</th></tr></thead><tbody>${ESTORNOS.map((e,i)=>`<tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}"><td style="font-weight:600;color:var(--danger)">${e.gc}</td><td>${e.nome}</td><td>${e.colab}</td><td>${brl(e.valor)}</td><td style="color:var(--t3)">${e.pct}%</td><td style="color:var(--danger);font-weight:700">-${brl(e.comissao)}</td></tr>`).join("")}</tbody></table></div>`:`<p style="font-family:var(--body);font-size:12px;color:var(--success)">\u2713 Nenhum estorno neste per\u00edodo.</p>`}</div>`;
-  html+=`<div class="fech-section"><div class="fech-section-header"><h3 style="color:var(--warn)">Contempla\u00e7\u00f5es do Per\u00edodo</h3><span class="pill contemplacao">${CONTEMPLACOES.length} cota${CONTEMPLACOES.length!==1?'s':''}</span></div>${CONTEMPLACOES.length>0?`<div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor</th><th>Observa\u00e7\u00e3o</th></tr></thead><tbody>${CONTEMPLACOES.map(c=>`<tr><td style="font-weight:600;color:var(--warn)">${c.gc}</td><td>${c.nome}</td><td>${c.colab}</td><td>${brl(c.valor)}</td><td style="color:var(--t2)">${c.obs||'\u2014'}</td></tr>`).join("")}</tbody></table></div>`:`<p style="font-family:var(--body);font-size:12px;color:var(--t3)">Nenhuma contempla\u00e7\u00e3o registrada neste per\u00edodo.</p>`}</div>`;
+  html+=`<div class="subpanel active"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div class="section-title" style="margin:0;flex:1">Parcela ${pNum} — ${p.itens.length} cotas</div><div style="font-family:var(--mono);font-size:13px;color:var(--accent-bright);font-weight:600;margin-left:1rem">${brl(p.liquido)}</div></div><div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor do Crédito</th><th>% ADM</th><th>Comissão Bruta</th></tr></thead><tbody>${p.itens.map((it,i)=>`<tr style="${i%2===1?'background:rgba(20,24,36,0.5)':''}"><td style="font-weight:600;font-family:var(--mono);font-size:11px">${it.gc}</td><td>${it.nome}</td><td>${it.colab}</td><td style="font-family:var(--mono)">${brl(it.vc)}</td><td style="color:var(--t3);font-family:var(--mono)">${it._rate}%</td><td style="color:var(--accent-bright);font-weight:600;font-family:var(--mono)">${brl(it._com)}</td></tr>`).join("")}</tbody></table></div></div>`;
+  html+=`<div class="fech-section"><div class="fech-section-header"><h3 style="color:var(--danger)">Estornos do Período</h3><span class="pill estorno">${ESTORNOS.length} cotas · -${brl(totalEstornos)}</span></div>${ESTORNOS.length>0?`<div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor Crédito</th><th>% ADM</th><th>Estorno</th></tr></thead><tbody>${ESTORNOS.map((e,i)=>`<tr style="${i%2===1?'background:rgba(20,24,36,0.5)':''}"><td style="font-weight:600;color:var(--danger);font-family:var(--mono);font-size:11px">${e.gc}</td><td>${e.nome}</td><td>${e.colab}</td><td style="font-family:var(--mono)">${brl(e.valor)}</td><td style="color:var(--t3);font-family:var(--mono)">${e.pct}%</td><td style="color:var(--danger);font-weight:700;font-family:var(--mono)">-${brl(e.comissao)}</td></tr>`).join("")}</tbody></table></div>`:`<p style="font-family:var(--body);font-size:12px;color:var(--success)">✓ Nenhum estorno neste período.</p>`}</div>`;
+  html+=`<div class="fech-section"><div class="fech-section-header"><h3 style="color:var(--warn)">Contemplações do Período</h3><span class="pill contemplacao">${CONTEMPLACOES.length} cota${CONTEMPLACOES.length!==1?'s':''}</span></div>${CONTEMPLACOES.length>0?`<div class="table-wrap"><table><thead><tr><th>Grupo-Cota</th><th>Consorciado</th><th>Colaborador</th><th>Valor</th><th>Observação</th></tr></thead><tbody>${CONTEMPLACOES.map(c=>`<tr><td style="font-weight:600;color:var(--warn);font-family:var(--mono);font-size:11px">${c.gc}</td><td>${c.nome}</td><td>${c.colab}</td><td style="font-family:var(--mono)">${brl(c.valor)}</td><td style="color:var(--t2)">${c.obs||'—'}</td></tr>`).join("")}</tbody></table></div>`:`<p style="font-family:var(--body);font-size:12px;color:var(--t3)">Nenhuma contemplação registrada neste período.</p>`}</div>`;
   document.getElementById("tab-fechamento").innerHTML=html;
 }
 function renderDespesas(){
   const totalDesp=DESPESAS.reduce((a,d)=>a+d.valor,0);
   const sobra=VALOR_NOTA-totalDesp;
-  let html=`<div class="desp-summary"><div class="desp-card" style="--card-color:var(--accent)"><div class="dc-l">Valor da Nota (Comiss\u00f5es)</div><div class="dc-v" style="color:var(--accent-bright)">${brl(VALOR_NOTA)}</div></div><div class="desp-card" style="--card-color:#EF4444"><div class="dc-l">Total Despesas</div><div class="dc-v" style="color:var(--danger)">${brl(totalDesp)}</div></div><div class="desp-card" style="--card-color:var(--success);border-color:var(--success)"><div class="dc-l">Sobra</div><div class="dc-v" style="color:var(--success)">${brl(sobra)}</div></div></div><div class="section"><div class="section-title">Lista de Despesas</div><div class="table-wrap"><table><thead><tr><th>#</th><th>Nome</th><th>Valor</th><th>Comprovante no Drive</th></tr></thead><tbody>${DESPESAS.map((d,i)=>`<tr style="${i%2===1?'background:rgba(28,35,51,0.4)':''}"><td style="color:var(--t3)">${i+1}</td><td style="font-weight:600">${d.nome}</td><td>${brl(d.valor)}</td><td>${d.drive?'<span class="badge ok">\u2713 OK</span>':'<span class="pending-badge">\u26a0 Pendente</span>'}</td></tr>`).join("")}</tbody></table></div></div>`;
+  let html=`<div class="desp-summary"><div class="desp-card" style="--card-color:var(--accent)"><div class="dc-l">Valor da Nota (Comissões)</div><div class="dc-v" style="color:var(--accent-bright)">${brl(VALOR_NOTA)}</div></div><div class="desp-card" style="--card-color:#E04040"><div class="dc-l">Total Despesas</div><div class="dc-v" style="color:var(--danger)">${brl(totalDesp)}</div></div><div class="desp-card" style="--card-color:var(--success);border-color:rgba(74,184,130,.25)"><div class="dc-l">Sobra</div><div class="dc-v" style="color:var(--success)">${brl(sobra)}</div></div></div><div class="section"><div class="section-title">Lista de Despesas</div><div class="table-wrap"><table><thead><tr><th>#</th><th>Nome</th><th>Valor</th><th>Comprovante no Drive</th></tr></thead><tbody>${DESPESAS.map((d,i)=>`<tr style="${i%2===1?'background:rgba(20,24,36,0.5)':''}"><td style="color:var(--t3);font-family:var(--mono);font-size:11px">${i+1}</td><td style="font-weight:500">${d.nome}</td><td style="font-family:var(--mono)">${brl(d.valor)}</td><td>${d.drive?'<span class="badge ok">✓ OK</span>':'<span class="pending-badge">⚠ Pendente</span>'}</td></tr>`).join("")}</tbody></table></div></div>`;
   document.getElementById("tab-despesas").innerHTML=html;
 }
 function renderConfig(){
   const rows=Object.entries(PERC).map(([nome,cfg])=>{
-    const ps=[1,2,3,4,5].map(p=>{if(cfg.especial)return`<td style="color:var(--t3);font-family:var(--body);font-size:11px">${p===1?'50% com. bruta':'\u2014'}</td>`;return`<td><input type="number" step="0.05" min="0" max="5" value="${(cfg["p"+p]||0).toFixed(2)}" onchange="PERC['${nome}']['p${p}']=+this.value;renderComissoes()"></td>`;}).join("");
-    const fixoCell=cfg.especial?`<td style="color:var(--t3)">\u2014</td>`:`<td><input type="number" step="50" min="0" value="${cfg.fixo||0}" onchange="PERC['${nome}'].fixo=+this.value;renderComissoes()"></td>`;
+    const ps=[1,2,3,4,5].map(p=>{if(cfg.especial)return`<td style="color:var(--t3);font-family:var(--body);font-size:11px">${p===1?'50% com. bruta':'—'}</td>`;return`<td><input type="number" step="0.05" min="0" max="5" value="${(cfg["p"+p]||0).toFixed(2)}" onchange="PERC['${nome}']['p${p}']=+this.value;renderComissoes()"></td>`;}).join("");
+    const fixoCell=cfg.especial?`<td style="color:var(--t3)">—</td>`:`<td><input type="number" step="50" min="0" value="${cfg.fixo||0}" onchange="PERC['${nome}'].fixo=+this.value;renderComissoes()"></td>`;
     return`<tr><td style="font-weight:600">${nome}</td>${ps}${fixoCell}</tr>`;
   }).join("");
-  document.getElementById("tab-config").innerHTML=`<div class="cfg-box"><h4>Percentuais de Comiss\u00e3o por Colaborador</h4><p>Altere os valores abaixo se os acordos mudarem. Os c\u00e1lculos na aba Comiss\u00f5es atualizam automaticamente.</p><div style="overflow-x:auto"><table><thead><tr><th>Colaborador</th><th>P1 %</th><th>P2 %</th><th>P3 %</th><th>P4 %</th><th>P5 %</th><th>Fixo Mensal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  document.getElementById("tab-config").innerHTML=`<div class="cfg-box"><h4>Percentuais de Comissão por Colaborador</h4><p>Altere os valores abaixo se os acordos mudarem. Os cálculos na aba Comissões atualizam automaticamente.</p><div style="overflow-x:auto"><table><thead><tr><th>Colaborador</th><th>P1 %</th><th>P2 %</th><th>P3 %</th><th>P4 %</th><th>P5 %</th><th>Fixo Mensal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
 }
 document.getElementById("periodo-display").textContent=PERIODO;
 renderComissoes();renderFechamento();renderDespesas();renderConfig();
