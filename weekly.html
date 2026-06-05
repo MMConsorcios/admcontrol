@@ -230,6 +230,284 @@
     .pagamentos-grid { grid-template-columns: 1fr; }
     .donut-card { padding: 0.9rem; }
   }
+
+  /* ═══════════════════════ GERENCIADOR DE VENDAS ═══════════════════════ */
+
+  .mgr-fab {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    z-index: 99;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 11px 18px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 20px rgba(189,52,29,0.45), 0 1px 4px rgba(0,0,0,0.4);
+    transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+    font-family: var(--body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .mgr-fab:hover {
+    background: var(--accent-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(189,52,29,0.55), 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .mgr-fab svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+  .mgr-overlay {
+    position: fixed; inset: 0;
+    background: rgba(7,9,14,0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 200;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .mgr-overlay.open { opacity: 1; pointer-events: all; }
+
+  .mgr-drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 500px; max-width: 100vw;
+    z-index: 201;
+    background: var(--bg2);
+    border-left: 1px solid var(--bd);
+    box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+    transform: translateX(100%);
+    transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .mgr-drawer.open { transform: translateX(0); }
+
+  .mgr-dheader {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--bd);
+    flex-shrink: 0;
+  }
+  .mgr-dheader-left { display: flex; flex-direction: column; gap: 3px; }
+  .mgr-dheader-title {
+    font-size: 14px; font-weight: 800;
+    color: var(--t1); font-family: var(--titles);
+    letter-spacing: -0.3px;
+  }
+  .mgr-dheader-sub { font-size: 11px; color: var(--t3); font-family: var(--body); }
+  .mgr-close {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: transparent; border: 1px solid var(--bd);
+    color: var(--t2); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .mgr-close:hover { background: rgba(239,68,68,0.12); border-color: var(--danger); color: var(--danger); }
+
+  .mgr-tabs {
+    display: flex; border-bottom: 1px solid var(--bd);
+    background: var(--bg3); flex-shrink: 0;
+  }
+  .mgr-tab {
+    flex: 1; padding: 12px 10px;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--t3); cursor: pointer;
+    border: none; background: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s; font-family: var(--titles);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .mgr-tab:hover { color: var(--t2); }
+  .mgr-tab.active { color: var(--accent-bright); border-bottom-color: var(--accent); }
+  .mgr-tab-badge {
+    background: var(--accent); color: #fff;
+    border-radius: 100px; padding: 1px 6px;
+    font-size: 9px; font-weight: 700; min-width: 18px; text-align: center;
+  }
+
+  .mgr-panels { flex: 1; overflow: hidden; position: relative; }
+  .mgr-panel {
+    position: absolute; inset: 0; overflow-y: auto;
+    padding: 20px; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .mgr-panel.active { opacity: 1; pointer-events: all; }
+  .mgr-panel::-webkit-scrollbar { width: 4px; }
+  .mgr-panel::-webkit-scrollbar-track { background: transparent; }
+  .mgr-panel::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 2px; }
+
+  .mgr-form-section { margin-bottom: 20px; }
+  .mgr-sec-label {
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: var(--t3); font-family: var(--titles);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .mgr-sec-label::after { content: ''; flex: 1; height: 1px; background: var(--bd); }
+
+  .mgr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mgr-grid.full { grid-template-columns: 1fr; }
+
+  .mgr-field { display: flex; flex-direction: column; gap: 6px; }
+  .mgr-flabel {
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--t2); font-family: var(--titles);
+  }
+  .mgr-input, .mgr-select {
+    background: var(--bg3); border: 1px solid var(--bd);
+    border-radius: 8px; padding: 9px 12px;
+    font-size: 13px; color: var(--t1); font-family: var(--body);
+    outline: none; width: 100%;
+    -webkit-appearance: none; appearance: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .mgr-input:focus, .mgr-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(189,52,29,0.15);
+  }
+  .mgr-input::placeholder { color: var(--t3); }
+  .mgr-select option { background: var(--bg3); color: var(--t1); }
+
+  .mgr-toggles { display: flex; gap: 10px; }
+  .mgr-toggle {
+    flex: 1; background: var(--bg3); border: 1px solid var(--bd);
+    border-radius: 8px; padding: 10px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; transition: all 0.15s; user-select: none;
+  }
+  .mgr-toggle:hover { border-color: var(--bd2); }
+  .mgr-toggle.on-pago   { border-color: var(--success); background: rgba(76,175,130,0.08); }
+  .mgr-toggle.on-desist { border-color: var(--desist);  background: rgba(139,92,246,0.08); }
+  .mgr-toggle-lbl { font-size: 12px; color: var(--t2); font-family: var(--body); }
+  .mgr-toggle-lbl strong {
+    display: block; font-size: 10px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--t3); font-family: var(--titles); margin-bottom: 2px;
+  }
+  .mgr-sw {
+    width: 32px; height: 18px; background: var(--bg);
+    border: 1px solid var(--bd); border-radius: 100px;
+    position: relative; transition: all 0.2s; flex-shrink: 0;
+  }
+  .mgr-sw::after {
+    content: ''; position: absolute;
+    width: 12px; height: 12px; top: 2px; left: 2px;
+    border-radius: 50%; background: var(--t3);
+    transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
+  }
+  .mgr-toggle.on-pago   .mgr-sw { background: var(--success); border-color: var(--success); }
+  .mgr-toggle.on-pago   .mgr-sw::after { left: 16px; background: #fff; }
+  .mgr-toggle.on-desist .mgr-sw { background: var(--desist);  border-color: var(--desist);  }
+  .mgr-toggle.on-desist .mgr-sw::after { left: 16px; background: #fff; }
+
+  .mgr-submit {
+    width: 100%; padding: 12px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 10px;
+    font-size: 13px; font-weight: 700; font-family: var(--body);
+    cursor: pointer; transition: all 0.2s;
+    letter-spacing: 0.3px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 4px;
+  }
+  .mgr-submit:hover { background: var(--accent-bright); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(189,52,29,0.4); }
+  .mgr-submit:active { transform: translateY(0); }
+
+  /* Config section */
+  .mgr-cfg-row {
+    background: var(--bg3); border: 1px solid var(--bd); border-radius: 10px;
+    padding: 14px 16px; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .mgr-cfg-label { font-size: 12px; color: var(--t2); font-family: var(--body); }
+  .mgr-cfg-label strong { display: block; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--t3); font-family: var(--titles); margin-bottom: 3px; }
+  .mgr-cfg-sel {
+    background: var(--bg); border: 1px solid var(--bd); border-radius: 7px;
+    padding: 7px 10px; font-size: 13px; font-weight: 700; color: var(--accent-bright);
+    font-family: var(--body); outline: none; cursor: pointer;
+    -webkit-appearance: none; appearance: none; text-align: center;
+    transition: border-color 0.15s;
+  }
+  .mgr-cfg-sel:focus { border-color: var(--accent); }
+
+  .mgr-danger-btn {
+    width: 100%; padding: 10px;
+    background: transparent; color: var(--danger);
+    border: 1px solid rgba(239,68,68,0.3); border-radius: 8px;
+    font-size: 12px; font-weight: 700; font-family: var(--body);
+    cursor: pointer; transition: all 0.15s; margin-top: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+  }
+  .mgr-danger-btn:hover { background: rgba(239,68,68,0.08); border-color: var(--danger); }
+
+  /* List panel */
+  .mgr-list-empty {
+    text-align: center; padding: 40px 20px;
+    color: var(--t3); font-size: 12px; font-family: var(--body); font-style: italic;
+  }
+  .mgr-vcard {
+    background: var(--bg3); border: 1px solid var(--bd);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+    display: flex; align-items: flex-start; gap: 12px;
+    transition: border-color 0.15s;
+  }
+  .mgr-vcard:hover { border-color: var(--bd2); }
+  .mgr-vcard.is-desist { border-color: rgba(139,92,246,0.3); background: rgba(139,92,246,0.04); }
+  .mgr-vinfo { flex: 1; min-width: 0; }
+  .mgr-vnome {
+    font-size: 13px; font-weight: 600; color: var(--t1);
+    font-family: var(--body); white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .mgr-vsub {
+    font-size: 11px; color: var(--t3); font-family: var(--body);
+    margin-top: 3px; display: flex; flex-wrap: wrap; gap: 4px 8px;
+  }
+  .mgr-vval {
+    font-size: 14px; font-weight: 700; color: var(--accent-bright);
+    font-family: var(--titles); flex-shrink: 0; margin-top: 1px;
+  }
+  .mgr-vcard.is-desist .mgr-vval { color: var(--t3); text-decoration: line-through; }
+  .mgr-del {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: transparent; border: 1px solid transparent;
+    color: var(--t3); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.15s; margin-top: -1px;
+  }
+  .mgr-del:hover { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.3); color: var(--danger); }
+
+  /* Toast */
+  .mgr-toast {
+    position: fixed; bottom: 5rem; right: 2rem; z-index: 300;
+    background: var(--bg3); border: 1px solid var(--bd); border-radius: 10px;
+    padding: 12px 16px; font-size: 13px; font-family: var(--body); color: var(--t1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    display: flex; align-items: center; gap: 10px; max-width: 300px;
+    transform: translateY(10px); opacity: 0;
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1); pointer-events: none;
+  }
+  .mgr-toast.show { transform: translateY(0); opacity: 1; }
+  .mgr-toast.t-ok  { border-color: rgba(76,175,130,0.5);  }
+  .mgr-toast.t-ok  .ti { color: var(--success); }
+  .mgr-toast.t-err { border-color: rgba(239,68,68,0.4);   }
+  .mgr-toast.t-err .ti { color: var(--danger);  }
+  .mgr-toast.t-warn{ border-color: rgba(232,160,69,0.4);  }
+  .mgr-toast.t-warn .ti { color: var(--warn);   }
+  .ti { flex-shrink: 0; }
+
+  @media (max-width: 520px) {
+    .mgr-drawer { width: 100vw; }
+    .mgr-fab    { bottom: 1rem; right: 1rem; }
+    .mgr-grid   { grid-template-columns: 1fr; }
+    .mgr-toggles { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
@@ -247,6 +525,187 @@
 
 </div>
 
+<!-- ══ OVERLAY ══ -->
+<div class="mgr-overlay" id="mgrOverlay" onclick="closeMgr()"></div>
+
+<!-- ══ DRAWER ══ -->
+<div class="mgr-drawer" id="mgrDrawer">
+
+  <div class="mgr-dheader">
+    <div class="mgr-dheader-left">
+      <span class="mgr-dheader-title">Gerenciar Vendas</span>
+      <span class="mgr-dheader-sub">Mauro Motta Consórcios · Junho 2026</span>
+    </div>
+    <button class="mgr-close" onclick="closeMgr()" title="Fechar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="mgr-tabs">
+    <button class="mgr-tab active" id="tabAdd" onclick="switchTab('add')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Nova Venda
+    </button>
+    <button class="mgr-tab" id="tabList" onclick="switchTab('list')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Vendas
+      <span class="mgr-tab-badge" id="vcCount">0</span>
+    </button>
+    <button class="mgr-tab" id="tabCfg" onclick="switchTab('cfg')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Config
+    </button>
+  </div>
+
+  <div class="mgr-panels">
+
+    <!-- ── Nova Venda ── -->
+    <div class="mgr-panel active" id="panelAdd">
+      <form id="vendaForm" onsubmit="addVendaFromForm(event)">
+
+        <div class="mgr-form-section">
+          <div class="mgr-sec-label">Identificação</div>
+          <div class="mgr-grid">
+            <div class="mgr-field">
+              <label class="mgr-flabel">Data</label>
+              <input type="text" class="mgr-input" id="f-data" placeholder="DD/MM/AAAA" required>
+            </div>
+            <div class="mgr-field">
+              <label class="mgr-flabel">Semana</label>
+              <select class="mgr-select" id="f-semana" required>
+                <option value="">Selecionar…</option>
+                <option value="0">Semana 0</option>
+                <option value="1">Semana 1</option>
+                <option value="2">Semana 2</option>
+                <option value="3">Semana 3</option>
+                <option value="4">Semana 4</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mgr-form-section">
+          <div class="mgr-sec-label">Consórcio</div>
+          <div class="mgr-grid full">
+            <div class="mgr-field">
+              <label class="mgr-flabel">Grupo-Cota</label>
+              <input type="text" class="mgr-input" id="f-gc" placeholder="Ex: 0000-000" required>
+            </div>
+          </div>
+          <div class="mgr-grid" style="margin-top:10px">
+            <div class="mgr-field">
+              <label class="mgr-flabel">Modalidade</label>
+              <select class="mgr-select" id="f-mod" required>
+                <option value="">Selecionar…</option>
+                <option value="Imóvel">Imóvel</option>
+                <option value="Veículo">Veículo</option>
+              </select>
+            </div>
+            <div class="mgr-field">
+              <label class="mgr-flabel">Valor (R$)</label>
+              <input type="number" class="mgr-input" id="f-valor" placeholder="0.00" step="0.01" min="0" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="mgr-form-section">
+          <div class="mgr-sec-label">Consorciado</div>
+          <div class="mgr-grid full">
+            <div class="mgr-field">
+              <label class="mgr-flabel">Nome completo</label>
+              <input type="text" class="mgr-input" id="f-nome" placeholder="Nome do consorciado" required>
+            </div>
+          </div>
+          <div class="mgr-grid" style="margin-top:10px">
+            <div class="mgr-field">
+              <label class="mgr-flabel">Colaborador</label>
+              <select class="mgr-select" id="f-colab" required>
+                <option value="">Selecionar…</option>
+                <option value="Ivana">Ivana</option>
+                <option value="Jéssica">Jéssica</option>
+                <option value="Régis">Régis</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mgr-form-section">
+          <div class="mgr-sec-label">Status</div>
+          <div class="mgr-toggles">
+            <div class="mgr-toggle" id="tog-pago" onclick="toggleField('pago')">
+              <div class="mgr-toggle-lbl">
+                <strong>Pago e Assinado</strong>
+                <span id="tog-pago-txt">Pendente</span>
+              </div>
+              <div class="mgr-sw"></div>
+            </div>
+            <div class="mgr-toggle" id="tog-desist" onclick="toggleField('desist')">
+              <div class="mgr-toggle-lbl">
+                <strong>Desistente</strong>
+                <span id="tog-desist-txt">Não</span>
+              </div>
+              <div class="mgr-sw"></div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="mgr-submit">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Adicionar Venda
+        </button>
+      </form>
+    </div>
+
+    <!-- ── Lista de Vendas ── -->
+    <div class="mgr-panel" id="panelList">
+      <div id="mgrList"></div>
+    </div>
+
+    <!-- ── Configurações ── -->
+    <div class="mgr-panel" id="panelCfg">
+      <div class="mgr-sec-label" style="margin-bottom:16px">Semanas Visíveis</div>
+      <div class="mgr-cfg-row">
+        <div class="mgr-cfg-label">
+          <strong>Semanas exibidas no relatório</strong>
+          Controla até qual semana aparece no painel principal
+        </div>
+        <select class="mgr-cfg-sel" id="cfgSemanas" onchange="saveCfgSemanas(this.value)">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+
+      <div class="mgr-sec-label" style="margin-bottom:16px;margin-top:8px">Dados</div>
+      <div class="mgr-cfg-row" style="flex-direction:column;align-items:flex-start;gap:6px">
+        <div class="mgr-cfg-label">
+          <strong>Vendas salvas no dispositivo</strong>
+          <span id="cfgVendasCount">0 registros no localStorage</span>
+        </div>
+      </div>
+      <button class="mgr-danger-btn" onclick="confirmarReset()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        Apagar todos os dados salvos
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FAB ── -->
+<button class="mgr-fab" id="mgrFab" onclick="openMgr()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+  Gerenciar Vendas
+</button>
+
+<!-- ── Toast ── -->
+<div class="mgr-toast" id="mgrToast">
+  <span class="ti" id="toastIcon"></span>
+  <span id="toastMsg"></span>
+</div>
+
 <script>
 // ── PERÍODO ─────────────────────────────────────────────────────────
 const PERIODO = "26/05/2026 – 25/06/2026";
@@ -255,12 +714,11 @@ const PERIODO = "26/05/2026 – 25/06/2026";
 const TOTAL_SEMANAS = 4;
 
 // ── SEMANAS VISÍVEIS (oculta semanas futuras) ────────────────────────
-const SEMANAS_VISIVEIS = 0;
+let SEMANAS_VISIVEIS = parseInt(localStorage.getItem('mmv_semanas') || '0');
 
 // ── VENDAS ──────────────────────────────────────────────────────────
 // Campo opcional: desistente:true  → exclui dos totais e move para o box de desistentes
-const VENDAS = [
-];
+let VENDAS = JSON.parse(localStorage.getItem('mmv_vendas') || '[]');
 
 // ── PROSPECÇÕES ─────────────────────────────────────────────────────
 const PROSPECCOES = [];
@@ -564,6 +1022,178 @@ function render() {
 
 document.getElementById("periodo-display").textContent = PERIODO;
 render();
+
+/* ═══════════════════════ GERENCIADOR ═══════════════════════ */
+
+const LS_VENDAS   = 'mmv_vendas';
+const LS_SEMANAS  = 'mmv_semanas';
+
+function saveVendas()  { localStorage.setItem(LS_VENDAS,  JSON.stringify(VENDAS)); }
+function saveSemanas() { localStorage.setItem(LS_SEMANAS, String(SEMANAS_VISIVEIS)); }
+
+// Toggle state
+let _formPago   = false;
+let _formDesist = false;
+
+function openMgr() {
+  document.getElementById('mgrOverlay').classList.add('open');
+  document.getElementById('mgrDrawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  syncCount();
+  syncCfgPanel();
+}
+
+function closeMgr() {
+  document.getElementById('mgrOverlay').classList.remove('open');
+  document.getElementById('mgrDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchTab(tab) {
+  ['add','list','cfg'].forEach(t => {
+    document.getElementById('panel' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+    document.getElementById('tab'   + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+  });
+  if (tab === 'list') renderMgrList();
+  if (tab === 'cfg')  syncCfgPanel();
+}
+
+function syncCount() {
+  document.getElementById('vcCount').textContent = VENDAS.length;
+}
+
+function syncCfgPanel() {
+  document.getElementById('cfgSemanas').value = SEMANAS_VISIVEIS;
+  document.getElementById('cfgVendasCount').textContent =
+    VENDAS.length + ' registro' + (VENDAS.length !== 1 ? 's' : '') + ' no localStorage';
+}
+
+function saveCfgSemanas(val) {
+  SEMANAS_VISIVEIS = parseInt(val);
+  saveSemanas();
+  render();
+  showToast('Semanas visíveis: ' + SEMANAS_VISIVEIS, 'ok');
+}
+
+function toggleField(field) {
+  if (field === 'pago') {
+    _formPago = !_formPago;
+    document.getElementById('tog-pago').classList.toggle('on-pago', _formPago);
+    document.getElementById('tog-pago-txt').textContent = _formPago ? 'Sim' : 'Pendente';
+  } else {
+    _formDesist = !_formDesist;
+    document.getElementById('tog-desist').classList.toggle('on-desist', _formDesist);
+    document.getElementById('tog-desist-txt').textContent = _formDesist ? 'Sim' : 'Não';
+  }
+}
+
+function resetForm() {
+  document.getElementById('vendaForm').reset();
+  _formPago   = false;
+  _formDesist = false;
+  document.getElementById('tog-pago').classList.remove('on-pago');
+  document.getElementById('tog-desist').classList.remove('on-desist');
+  document.getElementById('tog-pago-txt').textContent   = 'Pendente';
+  document.getElementById('tog-desist-txt').textContent = 'Não';
+}
+
+function addVendaFromForm(e) {
+  e.preventDefault();
+  const venda = {
+    data:       document.getElementById('f-data').value.trim(),
+    semana:     parseInt(document.getElementById('f-semana').value),
+    gc:         document.getElementById('f-gc').value.trim(),
+    nome:       document.getElementById('f-nome').value.trim(),
+    mod:        document.getElementById('f-mod').value,
+    colab:      document.getElementById('f-colab').value,
+    valor:      parseFloat(document.getElementById('f-valor').value),
+    pago:       _formPago,
+    desistente: _formDesist,
+  };
+  VENDAS.push(venda);
+  saveVendas();
+  render();
+  syncCount();
+  resetForm();
+  showToast('Venda adicionada com sucesso!', 'ok');
+}
+
+function deleteVenda(idx) {
+  const nome = VENDAS[idx] ? VENDAS[idx].nome : '';
+  VENDAS.splice(idx, 1);
+  saveVendas();
+  render();
+  syncCount();
+  renderMgrList();
+  syncCfgPanel();
+  showToast('Venda de ' + nome + ' removida.', 'err');
+}
+
+function renderMgrList() {
+  const el = document.getElementById('mgrList');
+  if (VENDAS.length === 0) {
+    el.innerHTML = `<div class="mgr-list-empty">Nenhuma venda registrada ainda.</div>`;
+    return;
+  }
+  el.innerHTML = [...VENDAS].reverse().map((v, ri) => {
+    const idx = VENDAS.length - 1 - ri;
+    const pagoHtml   = v.pago       ? `<span style="color:var(--success)">✔ Pago</span>` : '';
+    const desistHtml = v.desistente ? `<span style="color:var(--desist)">↩ Desistente</span>` : '';
+    return `
+    <div class="mgr-vcard ${v.desistente ? 'is-desist' : ''}">
+      <div class="mgr-vinfo">
+        <div class="mgr-vnome">${v.nome}</div>
+        <div class="mgr-vsub">
+          <span>${v.data}</span>
+          <span style="opacity:.3">·</span>
+          <span>${v.gc}</span>
+          <span style="opacity:.3">·</span>
+          <span>Sem. ${v.semana}</span>
+          <span style="opacity:.3">·</span>
+          <span>${v.colab}</span>
+          ${pagoHtml}${desistHtml}
+        </div>
+      </div>
+      <div class="mgr-vval">${brl(v.valor)}</div>
+      <button class="mgr-del" onclick="deleteVenda(${idx})" title="Excluir">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function confirmarReset() {
+  if (!confirm('Tem certeza? Todos os dados salvos serão apagados permanentemente.')) return;
+  VENDAS.length = 0;
+  localStorage.removeItem(LS_VENDAS);
+  SEMANAS_VISIVEIS = 0;
+  localStorage.removeItem(LS_SEMANAS);
+  render();
+  syncCount();
+  syncCfgPanel();
+  renderMgrList();
+  showToast('Dados apagados.', 'err');
+}
+
+let _toastTimer;
+function showToast(msg, type) {
+  const t    = document.getElementById('mgrToast');
+  const icon = document.getElementById('toastIcon');
+  const msgEl= document.getElementById('toastMsg');
+  const icons = {
+    ok:   `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+    err:  `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>`,
+    warn: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  };
+  t.className = 'mgr-toast t-' + (type || 'ok');
+  icon.innerHTML = icons[type] || icons.ok;
+  msgEl.textContent = msg;
+  clearTimeout(_toastTimer);
+  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMgr(); });
 </script>
 </body>
 </html>
